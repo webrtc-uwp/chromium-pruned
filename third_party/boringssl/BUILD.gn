@@ -90,6 +90,9 @@ component("boringssl") {
       sources += gypi_values.boringssl_linux_x86_64_sources
     } else if (is_win) {
       deps += [ ":boringssl_asm" ]
+      if (target_runtime == "winrt") {
+        sources += gypi_values.boringssl_lib_winrt_sources
+      }
     } else {
       defines += [ "OPENSSL_NO_ASM" ]
     }
@@ -100,6 +103,9 @@ component("boringssl") {
       sources += gypi_values.boringssl_linux_x86_sources
     } else if (is_win) {
       deps += [ ":boringssl_asm" ]
+      if (target_runtime == "winrt") {
+        sources += gypi_values.boringssl_lib_winrt_sources
+      }
     } else {
       defines += [ "OPENSSL_NO_ASM" ]
     }

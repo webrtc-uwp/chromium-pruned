@@ -48,6 +48,10 @@
 #error "No suitable threading library available."
 #endif
 
+#ifdef WINRT
+#define InitializeCriticalSection(a) InitializeCriticalSectionEx(a, 0, 0)
+#endif
+
 namespace google {
 namespace protobuf {
 

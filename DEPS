@@ -32,6 +32,7 @@ vars = {
   # If you do not know, use the full path while defining your new deps entry.
   'googlecode_url': 'http://%s.googlecode.com/svn',
   'chromium_git': 'https://chromium.googlesource.com',
+  'chromium_uwp_git': 'git+https://github.com/webrtc-uwp',
   # Three lines of non-changing comments so that
   # the commit queue can handle CLs rolling sfntly
   # and whatever else without interference from each other.
@@ -63,11 +64,11 @@ vars = {
   # Three lines of non-changing comments so that
   # the commit queue can handle CLs rolling openmax_dl
   # and whatever else without interference from each other.
-  'openmax_dl_revision': '6670e52d32351145a6b6c198dab3f6a536edf3db',
+  'openmax_dl_revision': 'd2e41ac21a7faa37d616403dff2384602e69e686',
   # Three lines of non-changing comments so that
   # the commit queue can handle CLs rolling BoringSSL
   # and whatever else without interference from each other.
-  'boringssl_revision': '6d49157929abdefb155daf2751dc03fd9eb4240c',
+  'boringssl_revision': '143990d598151f1f847329d16e32ccf659440f67',
   # Three lines of non-changing comments so that
   # the commit queue can handle CLs rolling nss
   # and whatever else without interference from each other.
@@ -119,7 +120,7 @@ deps = {
    Var('chromium_git') + '/external/github.com/google/open-vcdiff.git' + '@' + '21d7d0b9c3d0c3ccbdb221c85ae889373f0a2a58',
 
   'src/testing/gtest':
-   Var('chromium_git') + '/external/github.com/google/googletest.git' + '@' + '6f8a66431cb592dad629028a50b3dd418a408c87',
+   Var('chromium_uwp_git') + '/googletest.git' + '@' +  '76d10932c78b14dd857839ada4929c492e97c64f', # from svn revision 746
 
   'src/testing/gmock':
    Var('chromium_git') + '/external/googlemock.git' + '@' + '0421b6f358139f02e102c9c332ce19a33faf75be', # from svn revision 566
@@ -149,7 +150,7 @@ deps = {
     Var('chromium_git') + '/external/snappy.git' + '@' + '762bb32f0c9d2f31ba4958c7c0933d22e80c20bf',
 
   'src/tools/gyp':
-    Var('chromium_git') + '/external/gyp.git' + '@' + 'ed163ce233f76a950dce1751ac851dbe4b1c00cc',
+    Var('chromium_uwp_git') + '/gyp.git' + '@' +  '33763ae4dddbe9b8c35179002517a52ccd98a6e9',
 
   'src/tools/swarming_client':
    Var('chromium_git') + '/external/swarming.client.git' + '@' +  Var('swarming_revision'),
@@ -185,7 +186,7 @@ deps = {
     Var('chromium_git') + '/external/selenium/py.git' + '@' + '5fd78261a75fe08d27ca4835fb6c5ce4b42275bd',
 
   'src/third_party/libvpx_new/source/libvpx':
-   Var('chromium_git') + '/webm/libvpx.git' + '@' +  '89cc68252846478fa7f2d570d96ff93776cefac6',
+  Var('chromium_uwp_git') + '/libvpx.git' + '@' +  '5364ad1d2865716a7479b4d1a040a92d6d3058d8',
 
   'src/third_party/ffmpeg':
    Var('chromium_git') + '/chromium/third_party/ffmpeg.git' + '@' + '60fc535386f97c6a0078738ba13ba3c4ef94ae01',
@@ -194,16 +195,16 @@ deps = {
     Var('chromium_git') + '/external/webrtc/trunk/talk.git' + '@' + 'a4cc90bc9bfb5cc932075aebccb734e38932b107', # commit position 11754
 
   'src/third_party/usrsctp/usrsctplib':
-    Var('chromium_git') + '/external/github.com/sctplab/usrsctp' + '@' + 'c60ec8b35c3fe6027d7a3faae89d1c8d7dd3ce98',
+   Var('chromium_uwp_git') + '/usrsctp.git' + '@' + 'b93cf274526377366fe4e385f82192e52a3d1984',
 
   'src/third_party/libsrtp':
-   Var('chromium_git') + '/chromium/deps/libsrtp.git' + '@' + '8eecac0feef4c65e2debb42718a10eab91551f35', # from svn revision 295151
+   Var('chromium_uwp_git') + '/libsrtp.git' + '@' + 'e4fcd5d564002819c58c3342dbe34c6eb38f5ebd', # from svn revision 295151
 
   'src/third_party/yasm/source/patched-yasm':
    Var('chromium_git') + '/chromium/deps/yasm/patched-yasm.git' + '@' + '7da28c6c7c6a1387217352ce02b31754deb54d2a',
 
   'src/third_party/libjpeg_turbo':
-   Var('chromium_git') + '/chromium/deps/libjpeg_turbo.git' + '@' + 'e4e75037f29745f1546b6ebf5cf532e841c04c2c',
+   Var('chromium_uwp_git') + '/libjpeg_turbo.git' + '@' +  '8330e331ef23a113d5071e548ed5447eae2c11b5',
 
   'src/third_party/flac':
    Var('chromium_git') + '/chromium/deps/flac.git' + '@' + '2c4b86af352b23498315c016dc207e3fb2733fc0',
@@ -221,10 +222,10 @@ deps = {
     Var('chromium_git') + '/external/webrtc/deps/third_party/openmax.git' + '@' +  Var('openmax_dl_revision'),
 
   'src/third_party/jsoncpp/source':
-    Var('chromium_git') + '/external/github.com/open-source-parsers/jsoncpp.git' + '@' + 'f572e8e42e22cfcf5ab0aea26574f408943edfa4', # from svn 248
+    Var('chromium_uwp_git') + '/jsoncpp.git' + '@' + '9c145f2997d54d7d3fed8661773427f7011ac3a3', # from svn 248
 
   'src/third_party/libyuv':
-    Var('chromium_git') + '/libyuv/libyuv.git' + '@' + '20343f45c612e485cd898aeaae2250df2d0b2d2d', # from version 1576
+    Var('chromium_uwp_git') + '/libyuv.git' + '@' + '01f429c850f623f5e2b41c978faa5ae0d76fcb9e', # from version 1483
 
   'src/third_party/smhasher/src':
     Var('chromium_git') + '/external/smhasher.git' + '@' + 'e87738e57558e0ec472b2fc3a643b838e5b6e88f',
@@ -247,7 +248,7 @@ deps = {
     Var('chromium_git') + '/external/github.com/google/pywebsocket.git' + '@' + '2d7b73c3acbd0f41dcab487ae5c97c6feae06ce2',
 
   'src/third_party/opus/src':
-   Var('chromium_git') + '/chromium/deps/opus.git' + '@' + '655cc54c564b84ef2827f0b2152ce3811046201e',
+   Var('chromium_uwp_git') + '/opus.git' + '@' + 'c28ca87f01881a38b7f71810e92dc4ed541951fd',
 
   'src/media/cdm/api':
    Var('chromium_git') + '/chromium/cdm.git' + '@' + '1dea7088184dec2ebe4a8b3800aabb0afbb4b88a',
@@ -265,7 +266,7 @@ deps = {
    'https://pdfium.googlesource.com/pdfium.git' + '@' +  Var('pdfium_revision'),
 
   'src/third_party/boringssl/src':
-   'https://boringssl.googlesource.com/boringssl.git' + '@' +  Var('boringssl_revision'),
+   Var('chromium_uwp_git') + '/boringssl.git' + '@' +  Var('boringssl_revision'),
 
   'src/third_party/py_trace_event/src':
     Var('chromium_git') + '/external/py_trace_event.git' + '@' + 'dd463ea9e2c430de2b9e53dea57a77b4c3ac9b30',

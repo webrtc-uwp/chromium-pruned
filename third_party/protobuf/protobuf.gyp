@@ -231,6 +231,63 @@
                 'src/google/protobuf/compiler/python/python_generator.cc',
                 'src/google/protobuf/compiler/main.cc',
               ],
+              'conditions': [
+                # protoc executable should not consider the WinRT
+                ['OS=="win" and OS_RUNTIME=="winrt"', {
+                  'defines!': [
+                    'WINRT',
+                    '_HAS_EXCEPTIONS=1',
+                    'WINAPI_FAMILY=WINAPI_FAMILY_APP',
+                  ],
+                  'conditions': [
+                    ['winrt_platform=="win_phone"', {
+                      'msvs_enable_winrt': 0,
+                      'msvs_enable_winphone': 0,
+                      'defines!': [
+                        'WINAPI_FAMILY=WINAPI_FAMILY_PHONE_APP',
+                      ],
+                    }],
+                  ],
+                  'msvs_settings': {
+                    'VCCLCompilerTool': {
+                      'CompileAsWinRT': 'false',
+                    },
+                    'VCLinkerTool': {
+                      'LinkAsWinRT': 'false',
+					  'OutputFile': '$(OutDir)\\protoc.exe',
+                      'conditions': [
+                        # conversion from Win. Phone project to Windows console project
+                        ['winrt_platform=="win_phone"', {
+                          'AdditionalDependencies!': [
+                            'WindowsPhoneCore.lib',
+                            'RuntimeObject.lib',
+                            'PhoneAppModelHost.lib',
+                          ],
+                          'AdditionalDependencies': [
+                            'kernel32.lib',
+                            'gdi32.lib',
+                            'winspool.lib',
+                            'comdlg32.lib',
+                            'advapi32.lib',
+                            'shell32.lib',
+                            'ole32.lib',
+                            'oleaut32.lib',
+                            'user32.lib',
+                            'uuid.lib',
+                            'odbc32.lib',
+                            'odbccp32.lib',
+                          ],
+                          # SubSystem values:
+                          # 0 == not set
+                          # 1 == /SUBSYSTEM:CONSOLE
+                          # 2 == /SUBSYSTEM:WINDOWS
+                          # Most of the executables we'll ever create are tests
+                          # and utilities with console output.
+                          'SubSystem': '1',
+                    }],
+                  ],},
+                },}],
+              ],
               'dependencies': [
                 'protobuf_full_do_not_use',
               ],

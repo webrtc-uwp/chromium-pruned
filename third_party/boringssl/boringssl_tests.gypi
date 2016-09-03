@@ -23,6 +23,14 @@
     {
       'target_name': 'boringssl_base64_test',
       'type': 'executable',
+      'conditions': [
+        ['OS=="win" and OS_RUNTIME=="winrt"', {
+          'type': 'static_library',
+          'defines': [
+            'WINRT',
+          ],
+       }],
+      ],
       'dependencies': [
         'boringssl.gyp:boringssl',
       ],
@@ -37,6 +45,14 @@
     {
       'target_name': 'boringssl_bio_test',
       'type': 'executable',
+      'conditions': [
+        ['OS=="win" and OS_RUNTIME=="winrt"', {
+          'type': 'static_library',
+          'defines': [
+            'WINRT',
+          ],
+       }],
+      ],
       'dependencies': [
         'boringssl.gyp:boringssl',
       ],
@@ -51,6 +67,14 @@
     {
       'target_name': 'boringssl_bn_test',
       'type': 'executable',
+      'conditions': [
+        ['OS=="win" and OS_RUNTIME=="winrt"', {
+          'type': 'static_library',
+          'defines': [
+            'WINRT',
+          ],
+       }],
+      ],
       'dependencies': [
         'boringssl.gyp:boringssl',
       ],
@@ -65,6 +89,14 @@
     {
       'target_name': 'boringssl_bytestring_test',
       'type': 'executable',
+      'conditions': [
+        ['OS=="win" and OS_RUNTIME=="winrt"', {
+          'type': 'static_library',
+          'defines': [
+            'WINRT',
+          ],
+       }],
+      ],
       'dependencies': [
         'boringssl.gyp:boringssl',
       ],
@@ -79,6 +111,14 @@
     {
       'target_name': 'boringssl_aead_test',
       'type': 'executable',
+      'conditions': [
+        ['OS=="win" and OS_RUNTIME=="winrt"', {
+          'type': 'static_library',
+          'defines': [
+            'WINRT',
+          ],
+       }],
+      ],
       'dependencies': [
         'boringssl.gyp:boringssl',
       ],
@@ -93,6 +133,14 @@
     {
       'target_name': 'boringssl_cipher_test',
       'type': 'executable',
+      'conditions': [
+        ['OS=="win" and OS_RUNTIME=="winrt"', {
+          'type': 'static_library',
+          'defines': [
+            'WINRT',
+          ],
+       }],
+      ],
       'dependencies': [
         'boringssl.gyp:boringssl',
       ],
@@ -121,6 +169,14 @@
     {
       'target_name': 'boringssl_constant_time_test',
       'type': 'executable',
+      'conditions': [
+        ['OS=="win" and OS_RUNTIME=="winrt"', {
+          'type': 'static_library',
+          'defines': [
+            'WINRT',
+          ],
+       }],
+      ],
       'dependencies': [
         'boringssl.gyp:boringssl',
       ],
@@ -163,6 +219,14 @@
     {
       'target_name': 'boringssl_dh_test',
       'type': 'executable',
+      'conditions': [
+        ['OS=="win" and OS_RUNTIME=="winrt"', {
+          'type': 'static_library',
+          'defines': [
+            'WINRT',
+          ],
+       }],
+      ],
       'dependencies': [
         'boringssl.gyp:boringssl',
       ],
@@ -177,6 +241,14 @@
     {
       'target_name': 'boringssl_digest_test',
       'type': 'executable',
+      'conditions': [
+        ['OS=="win" and OS_RUNTIME=="winrt"', {
+          'type': 'static_library',
+          'defines': [
+            'WINRT',
+          ],
+       }],
+      ],
       'dependencies': [
         'boringssl.gyp:boringssl',
       ],
@@ -191,6 +263,14 @@
     {
       'target_name': 'boringssl_dsa_test',
       'type': 'executable',
+      'conditions': [
+        ['OS=="win" and OS_RUNTIME=="winrt"', {
+          'type': 'static_library',
+          'defines': [
+            'WINRT',
+          ],
+       }],
+      ],
       'dependencies': [
         'boringssl.gyp:boringssl',
       ],
@@ -205,6 +285,14 @@
     {
       'target_name': 'boringssl_ec_test',
       'type': 'executable',
+      'conditions': [
+        ['OS=="win" and OS_RUNTIME=="winrt"', {
+          'type': 'static_library',
+          'defines': [
+            'WINRT',
+          ],
+       }],
+      ],
       'dependencies': [
         'boringssl.gyp:boringssl',
       ],
@@ -219,6 +307,14 @@
     {
       'target_name': 'boringssl_example_mul',
       'type': 'executable',
+      'conditions': [
+        ['OS=="win" and OS_RUNTIME=="winrt"', {
+          'type': 'static_library',
+          'defines': [
+            'WINRT',
+          ],
+       }],
+      ],
       'dependencies': [
         'boringssl.gyp:boringssl',
       ],
@@ -233,6 +329,14 @@
     {
       'target_name': 'boringssl_ecdsa_test',
       'type': 'executable',
+      'conditions': [
+        ['OS=="win" and OS_RUNTIME=="winrt"', {
+          'type': 'static_library',
+          'defines': [
+            'WINRT',
+          ],
+       }],
+      ],
       'dependencies': [
         'boringssl.gyp:boringssl',
       ],
@@ -247,6 +351,14 @@
     {
       'target_name': 'boringssl_err_test',
       'type': 'executable',
+      'conditions': [
+        ['OS=="win" and OS_RUNTIME=="winrt"', {
+          'type': 'static_library',
+          'defines': [
+            'WINRT',
+          ],
+       }],
+      ],
       'dependencies': [
         'boringssl.gyp:boringssl',
       ],
@@ -275,6 +387,14 @@
     {
       'target_name': 'boringssl_evp_test',
       'type': 'executable',
+      'conditions': [
+        ['OS=="win" and OS_RUNTIME=="winrt"', {
+          'type': 'static_library',
+          'defines': [
+            'WINRT',
+          ],
+       }],
+      ],
       'dependencies': [
         'boringssl.gyp:boringssl',
       ],
@@ -289,6 +409,14 @@
     {
       'target_name': 'boringssl_pbkdf_test',
       'type': 'executable',
+      'conditions': [
+        ['OS=="win" and OS_RUNTIME=="winrt"', {
+          'type': 'static_library',
+          'defines': [
+            'WINRT',
+          ],
+       }],
+      ],
       'dependencies': [
         'boringssl.gyp:boringssl',
       ],
@@ -303,6 +431,14 @@
     {
       'target_name': 'boringssl_hkdf_test',
       'type': 'executable',
+      'conditions': [
+        ['OS=="win" and OS_RUNTIME=="winrt"', {
+          'type': 'static_library',
+          'defines': [
+            'WINRT',
+          ],
+       }],
+      ],
       'dependencies': [
         'boringssl.gyp:boringssl',
       ],
@@ -317,6 +453,14 @@
     {
       'target_name': 'boringssl_hmac_test',
       'type': 'executable',
+      'conditions': [
+        ['OS=="win" and OS_RUNTIME=="winrt"', {
+          'type': 'static_library',
+          'defines': [
+            'WINRT',
+          ],
+       }],
+      ],
       'dependencies': [
         'boringssl.gyp:boringssl',
       ],
@@ -331,6 +475,14 @@
     {
       'target_name': 'boringssl_lhash_test',
       'type': 'executable',
+      'conditions': [
+        ['OS=="win" and OS_RUNTIME=="winrt"', {
+          'type': 'static_library',
+          'defines': [
+            'WINRT',
+          ],
+       }],
+      ],
       'dependencies': [
         'boringssl.gyp:boringssl',
       ],
@@ -345,6 +497,14 @@
     {
       'target_name': 'boringssl_gcm_test',
       'type': 'executable',
+      'conditions': [
+        ['OS=="win" and OS_RUNTIME=="winrt"', {
+          'type': 'static_library',
+          'defines': [
+            'WINRT',
+          ],
+       }],
+      ],
       'dependencies': [
         'boringssl.gyp:boringssl',
       ],
@@ -359,6 +519,14 @@
     {
       'target_name': 'boringssl_pkcs12_test',
       'type': 'executable',
+      'conditions': [
+        ['OS=="win" and OS_RUNTIME=="winrt"', {
+          'type': 'static_library',
+          'defines': [
+            'WINRT',
+          ],
+       }],
+      ],
       'dependencies': [
         'boringssl.gyp:boringssl',
       ],
@@ -415,6 +583,14 @@
     {
       'target_name': 'boringssl_rsa_test',
       'type': 'executable',
+      'conditions': [
+        ['OS=="win" and OS_RUNTIME=="winrt"', {
+          'type': 'static_library',
+          'defines': [
+            'WINRT',
+          ],
+       }],
+      ],
       'dependencies': [
         'boringssl.gyp:boringssl',
       ],
@@ -429,6 +605,14 @@
     {
       'target_name': 'boringssl_thread_test',
       'type': 'executable',
+      'conditions': [
+        ['OS=="win" and OS_RUNTIME=="winrt"', {
+          'type': 'static_library',
+          'defines': [
+            'WINRT',
+          ],
+       }],
+      ],
       'dependencies': [
         'boringssl.gyp:boringssl',
       ],
@@ -443,6 +627,14 @@
     {
       'target_name': 'boringssl_pkcs7_test',
       'type': 'executable',
+      'conditions': [
+        ['OS=="win" and OS_RUNTIME=="winrt"', {
+          'type': 'static_library',
+          'defines': [
+            'WINRT',
+          ],
+       }],
+      ],
       'dependencies': [
         'boringssl.gyp:boringssl',
       ],
@@ -499,6 +691,14 @@
     {
       'target_name': 'boringssl_pqueue_test',
       'type': 'executable',
+      'conditions': [
+        ['OS=="win" and OS_RUNTIME=="winrt"', {
+          'type': 'static_library',
+          'defines': [
+            'WINRT',
+          ],
+       }],
+      ],
       'dependencies': [
         'boringssl.gyp:boringssl',
       ],
@@ -513,6 +713,14 @@
     {
       'target_name': 'boringssl_ssl_test',
       'type': 'executable',
+      'conditions': [
+        ['OS=="win" and OS_RUNTIME=="winrt"', {
+          'type': 'static_library',
+          'defines': [
+            'WINRT',
+          ],
+       }],
+      ],
       'dependencies': [
         'boringssl.gyp:boringssl',
       ],

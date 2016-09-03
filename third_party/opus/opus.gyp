@@ -5,17 +5,17 @@
 {
   'variables': {
     'conditions': [
-      ['target_arch=="arm" or target_arch=="arm64"', {
+      ['target_arch=="arm" or target_arch=="arm64" or (winrt_platform=="win_phone" or winrt_platform=="win10_arm")', {
         'use_opus_fixed_point%': 1,
       }, {
         'use_opus_fixed_point%': 0,
       }],
-      ['target_arch=="arm"', {
+      ['target_arch=="arm" or (winrt_platform=="win_phone" or winrt_platform=="win10_arm")', {
         'use_opus_arm_optimization%': 1,
       }, {
         'use_opus_arm_optimization%': 0,
       }],
-      ['target_arch=="arm" and (OS=="win" or OS=="android" or OS=="linux")', {
+      ['(target_arch=="arm" or (winrt_platform=="win_phone" or winrt_platform=="win10_arm")) and (OS=="win" or OS=="android" or OS=="linux")', {
         # Based on the conditions in celt/arm/armcpu.c:
         # defined(_MSC_VER) || defined(__linux__).
         'use_opus_rtcd%': 1,
@@ -25,20 +25,22 @@
     ],
   },
   'target_defaults': {
+    'include_dirs': [
+      'src/celt',
+      'src/silk',
+    ],
+    'conditions': [
+      ['OS == "win"', {
+        'defines': [
+          'inline=__inline',
+        ],
+      }],
+    ],
     'target_conditions': [
       ['_type=="executable"', {
         # All of the executable targets depend on 'opus'. Unfortunately the
         # 'dependencies' block cannot be inherited via 'target_defaults'.
-        'include_dirs': [
-          'src/celt',
-          'src/silk',
-        ],
         'conditions': [
-          ['OS == "win"', {
-            'defines': [
-              'inline=__inline',
-            ],
-          }],
           ['OS=="android"', {
             'libraries': [
               '-llog',
@@ -97,6 +99,7 @@
           'msvs_disabled_warnings': [
             4305,  # Disable truncation warning in celt/pitch.c .
             4334,  # Disable 32-bit shift warning in src/opus_encoder.c .
+            4146,  # Disable unary minus operator applied to unsigned type in celt/endcode.h .
           ],
         }],
         ['os_posix==1 and OS!="android"', {
@@ -151,6 +154,11 @@
                 'opus_srcs_arm.gypi',
               ],
               'conditions': [
+                ['winrt_platform=="win_phone" or winrt_platform=="win10_arm"', {
+                  'defines': [
+                    'USE_MSVS_ARM_INTRINCICS',
+                  ],
+                }],
                 ['use_opus_rtcd==1', {
                   'defines': [
                     'OPUS_ARM_MAY_HAVE_EDSP',
@@ -180,12 +188,25 @@
       'sources': [
         'src/src/opus_compare.c',
       ],
+      'conditions': [
+        ['OS=="win" and OS_RUNTIME=="winrt"', {
+          'type': 'static_library'
+        }],
+      ],
     },  # target opus_compare
     {
       'target_name': 'opus_demo',
       'type': 'executable',
       'dependencies': [
         'opus'
+      ],
+      'conditions': [
+        ['OS=="win" and OS_RUNTIME=="winrt"', {
+          'type': 'static_library',
+          'defines': [
+            'WINRT',
+          ],
+        }],
       ],
       'sources': [
         'src/src/opus_demo.c',
@@ -197,6 +218,14 @@
       'dependencies': [
         'opus'
       ],
+       'conditions': [
+        ['OS=="win" and OS_RUNTIME=="winrt"', {
+          'type': 'static_library',
+          'defines': [
+            'WINRT',
+          ],
+        }],
+      ],
       'sources': [
         'src/tests/test_opus_api.c',
       ],
@@ -206,6 +235,14 @@
       'type': 'executable',
       'dependencies': [
         'opus'
+      ],
+      'conditions': [
+        ['OS=="win" and OS_RUNTIME=="winrt"', {
+          'type': 'static_library',
+          'defines': [
+            'WINRT',
+          ],
+        }],
       ],
       'sources': [
         'src/tests/test_opus_encode.c',
@@ -233,6 +270,12 @@
             'WARNING_CFLAGS': ['-Wno-nonnull'],
           },
         }],
+        ['OS=="win" and OS_RUNTIME=="winrt"', {
+          'type': 'static_library',
+          'defines': [
+            'WINRT',
+          ],
+        }],
       ],
     },  # target test_opus_decode
     {
@@ -240,6 +283,14 @@
       'type': 'executable',
       'dependencies': [
         'opus'
+      ],
+       'conditions': [
+        ['OS=="win" and OS_RUNTIME=="winrt"', {
+          'type': 'static_library',
+          'defines': [
+            'WINRT',
+          ],
+        }],
       ],
       'sources': [
         'src/tests/test_opus_padding.c',

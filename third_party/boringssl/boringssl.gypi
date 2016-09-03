@@ -307,6 +307,9 @@
       'src/crypto/x509v3/v3_sxnet.c',
       'src/crypto/x509v3/v3_utl.c',
     ],
+    'boringssl_lib_winrt_sources': [
+      'src/crypto/rand/windows.cc',
+    ],
     'boringssl_linux_aarch64_sources': [
       'linux-aarch64/crypto/aes/aesv8-armx64.S',
       'linux-aarch64/crypto/bn/armv8-mont.S',

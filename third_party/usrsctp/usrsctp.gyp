@@ -151,6 +151,16 @@
             'NON_WINDOWS_DEFINE',
           ],
         }],
+        ['OS=="win" and OS_RUNTIME=="winrt"', {
+          'defines!': [
+            'WINVER=0x0502',
+            '_WIN32_WINNT=0x0502',
+          ],
+          'msvs_disabled_warnings': [ 
+                                     #warning: declaration of '' hides previous local declaration, hides class member declaration
+                                     4456, 4459, 
+                                    ],
+        }],
       ],  # conditions
     },  # target usrsctp
   ],  # targets

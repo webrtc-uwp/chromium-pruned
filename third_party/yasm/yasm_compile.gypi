@@ -33,10 +33,16 @@
     'yasm_includes': [],
 
     'conditions': [
-      [ 'use_system_yasm==0', {
-        'yasm_path': '<(PRODUCT_DIR)/yasm<(EXECUTABLE_SUFFIX)',
-      }, {
-        'yasm_path': '<!(which yasm)',
+
+      # use_prebuilt_yasm == 1, the yasm_path will be set by the caller
+      [ 'use_prebuilt_yasm==0 ', {
+          'conditions': [
+             ['use_system_yasm==0', {
+               'yasm_path': '<(PRODUCT_DIR)/yasm<(EXECUTABLE_SUFFIX)',
+             },{
+               'yasm_path': '<!(which yasm)',
+             }],
+          ],
       }],
 
       # Define yasm_flags that pass into YASM.
@@ -91,7 +97,7 @@
   'conditions': [
     # Only depend on YASM on x86 systems, do this so that compiling
     # .asm files for ARM will fail.
-    ['use_system_yasm==0 and ( target_arch=="ia32" or target_arch=="x64" )', {
+    ['use_system_yasm==0 and use_prebuilt_yasm==0 and ( target_arch=="ia32" or target_arch=="x64" )', {
       'dependencies': [
         '<(DEPTH)/third_party/yasm/yasm.gyp:yasm#host',
       ],

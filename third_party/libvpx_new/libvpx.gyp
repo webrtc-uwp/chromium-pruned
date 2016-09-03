@@ -15,7 +15,11 @@
       ['OS=="win"', {
         'asm_obj_extension': 'obj',
       }],
-
+      ['(target_arch=="ia32" or target_arch=="x64") and OS == "win" and OS_RUNTIME == "winrt"', {
+        # set ysam_path variable before ../yasm/yasm_compile.gypi' is loaded in the include session
+        'use_prebuilt_yasm': '1',
+        'yasm_path': '../yasm/binaries/win/yasm<(EXECUTABLE_SUFFIX)',
+      }],
       ['msan==1', {
         'target_arch_full': 'generic',
       }, {
@@ -33,6 +37,9 @@
           }],
           ['target_arch=="arm64"', {
             'target_arch_full': 'arm64',
+          }],
+          ['OS_RUNTIME == "winrt" and (winrt_platform=="win_phone" or winrt_platform=="win10_arm")', {
+            'target_arch_full': 'arm-neon',
           }],
         ],
       }],
@@ -86,10 +93,10 @@
     },
   },
   'conditions': [
-    ['target_arch=="ia32"', {
+    ['target_arch=="ia32" and winrt_platform!="win_phone" and  winrt_platform!="win10_arm"', {
       'includes': ['libvpx_srcs_x86_intrinsics.gypi', ],
     }],
-    ['target_arch=="x64" and msan==0', {
+    ['target_arch=="x64" and msan==0 and winrt_platform!="win_phone" and  winrt_platform!="win10_arm"', {
       'includes': ['libvpx_srcs_x86_64_intrinsics.gypi', ],
     }],
     [ '(target_arch=="arm" or target_arch=="armv7") and arm_neon==0 and OS=="android"', {
@@ -98,7 +105,8 @@
       'includes': ['libvpx_srcs_arm_neon_cpu_detect_intrinsics.gypi', ],
     }],
     [ '(target_arch != "arm" and target_arch != "armv7") and \
-       (target_arch != "mipsel" and target_arch != "mips64el")', {
+       (target_arch != "mipsel" and target_arch != "mips64el") and \
+       not(OS_RUNTIME=="winrt" and (winrt_platform=="win_phone" or winrt_platform=="win10_arm"))', {
       'targets': [
         {
           # This libvpx target contains both encoder and decoder.
@@ -148,7 +156,7 @@
           # avoid this problem.
           'msvs_2010_disable_uldi_when_referenced': 1,
           'conditions': [
-            ['target_arch=="ia32"', {
+            ['target_arch=="ia32" and winrt_platform!="win_phone"  and  winrt_platform!="win10_arm"', {
               'includes': [
                 'libvpx_srcs_x86.gypi',
               ],
@@ -163,10 +171,10 @@
                 'libvpx_intrinsics_avx2',
               ],
             }],
-            ['target_arch=="arm64"', {
+            ['target_arch=="arm64" and winrt_platform!="win_phone" and  winrt_platform!="win10_arm"', {
               'includes': [ 'libvpx_srcs_arm64.gypi', ],
             }],
-            ['target_arch=="x64"', {
+            ['target_arch=="x64" and winrt_platform!="win_phone" and  winrt_platform!="win10_arm"', {
               'conditions': [
                 ['msan==1', {
                   'includes': [ 'libvpx_srcs_generic.gypi', ],
@@ -292,6 +300,55 @@
                 ],
               },
             }],
+          ],
+        },
+      ],
+    }],
+    ['OS_RUNTIME=="winrt" and (winrt_platform=="win_phone" or winrt_platform=="win10_arm")', {
+      'targets': [
+        {
+          # This libvpx target contains both encoder and decoder.
+          # Encoder is configured to be realtime only.
+          'target_name': 'libvpx_new',
+          'type': 'static_library',
+          
+          # Rule to convert .asm files to .S files.
+          'rules': [
+            {
+              'rule_name': 'convert_asm_For_WP',
+              'extension': 'asm',
+              'inputs': [
+              ],
+              'outputs': [
+                '<(shared_generated_dir)/<(RULE_INPUT_ROOT).S',
+              ],
+              'action': [
+                'cmd /c pushd <(libvpx_source)/../../ && type <(libvpx_source)/build/make/ads2armasm_ms.pl > ads2armasm_ms.pl && type <(libvpx_source)/build/make/thumb.pm > thumb.pm && type <(RULE_INPUT_PATH) | perl ads2armasm_ms.pl -chromium > <(shared_generated_dir)/<(RULE_INPUT_ROOT).S && popd & exit 0',
+              ],
+
+              'process_outputs_as_sources': 1,
+              'message': 'Convert libvpx asm file for WP ARM <(RULE_INPUT_PATH)',
+            },
+          ],
+
+          'include_dirs': [
+            'source/config/<(OS_CATEGORY)/<(target_arch_full)',
+            'source/config',
+            '<(libvpx_source)',
+          ],
+          'direct_dependent_settings': {
+            'include_dirs': [
+              '<(libvpx_source)',
+            ],
+          },
+          # We need to explicitly tell the assembler to look for
+          # .include directive files from the place where they're
+          # generated to.
+          'cflags': [
+             '-Wa,-I,<(shared_generated_dir)',
+          ],
+          'includes': [
+            'libvpx_srcs_arm_neon.gypi',
           ],
         },
       ],

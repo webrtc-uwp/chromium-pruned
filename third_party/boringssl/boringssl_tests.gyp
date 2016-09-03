@@ -13,12 +13,16 @@
       'sources': [
         'boringssl_unittest.cc',
        ],
-      'dependencies': [
-        '<@(boringssl_test_targets)',
-        '../../base/base.gyp:base',
-        '../../base/base.gyp:run_all_unittests',
-        '../../base/base.gyp:test_support_base',
-        '../../testing/gtest.gyp:gtest',
+      'conditions': [
+        ['OS_RUNTIME!="winrt"', {
+          'dependencies': [
+            '<@(boringssl_test_targets)',
+            '../../base/base.gyp:base',
+            '../../base/base.gyp:run_all_unittests',
+            '../../base/base.gyp:test_support_base',
+            '../../testing/gtest.gyp:gtest',
+          ],
+        },],
       ],
     },
   ],

@@ -51,6 +51,12 @@
         ['OS == "ios"', {
           'toolsets': ['host', 'target'],
         }],
+        ['OS == "win"', {
+         'msvs_disabled_warnings': [ 
+                                     #warning: conversion from 'size_t' to 'unsigned char', possible loss of data
+                                     4267,
+                                     ],
+        }],
       ],
     },
     {
