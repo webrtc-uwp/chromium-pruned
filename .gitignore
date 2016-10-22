@@ -381,8 +381,6 @@ vs-chromium-project.txt
 /third_party/libphonenumber/dist
 /third_party/libsrtp
 /third_party/libupnp
-/third_party/libvpx/source/libvpx
-/third_party/libvpx/
 /third_party/libvpx/libvpx_new_win10_arm.xml
 /third_party/libvpx/libvpx_new_win10_x64.xml
 /third_party/libvpx/libvpx_new_win10_x86.xml
