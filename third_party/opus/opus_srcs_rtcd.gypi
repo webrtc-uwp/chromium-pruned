@@ -11,6 +11,9 @@
     'src/celt/arm/fft_arm.h',
     'src/celt/arm/mdct_arm.h',
     'src/celt/arm/pitch_arm.h',
+    'src/silk/arm/arm_silk_map.c',
+    'src/silk/arm/NSQ_neon.h',
+    'src/silk/arm/NSQ_neon.c',
  ],
   'conditions': [
     ['winrt_platform=="win_phone" or winrt_platform=="win10_arm"', {

@@ -59,7 +59,6 @@ _packages_dev = (
   'libcurl4-gnutls-dev',
   'libdrm-dev',
   'libelf-dev',
-  'libexif-dev',
   'libgconf2-dev',
   'libglib2.0-dev',
   'libglu1-mesa-dev',
@@ -122,7 +121,6 @@ _packages_lib = (
   'libcairo2',
   'libcap2',
   'libcups2',
-  'libexif12',
   'libexpat1',
   'libfontconfig1',
   'libfreetype6',
@@ -139,6 +137,7 @@ _packages_lib = (
   'libsqlite3-0',
   'libstdc++6',
   'libx11-6',
+  'libx11-xcb1',
   'libxau6',
   'libxcb1',
   'libxcomposite1',
@@ -169,6 +168,7 @@ _packages_dbg = (
   'libpixman-1-0-dbg',
   'libsqlite3-0-dbg',
   'libx11-6-dbg',
+  'libx11-xcb1-dbg',
   'libxau6-dbg',
   'libxcb1-dbg',
   'libxcomposite1-dbg',
@@ -218,7 +218,6 @@ _packages_nacl = (
   'libasound2:i386',
   'libcap2:i386',
   'libelf-dev:i386',
-  'libexif12:i386',
   'libfontconfig1:i386',
   'libgconf-2-4:i386',
   'libglib2.0-0:i386',
@@ -364,9 +363,7 @@ def compute_dynamic_package_lists():
   else:
     _packages_dev += ('apache2.2-bin',)
 
-  if package_exists('fonts-stix'):
-    _packages_dev += ('fonts-stix',)
-  else:
+  if package_exists('xfonts-mathml'):
     _packages_dev += ('xfonts-mathml',)
 
   # Some packages are only needed if the distribution actually supports

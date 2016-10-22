@@ -6,7 +6,63 @@
   'includes': [
     'boringssl.gypi',
   ],
+  'target_defaults': {
+    'conditions': [
+      ['os_posix == 1', {
+        'cflags_c': [ '-std=c99' ],
+        'defines': [ '_XOPEN_SOURCE=700' ],
+      }],
+    ],
+  },
   'targets': [
+    {
+      'target_name': 'boringssl_nacl_win64',
+      'type': '<(component)',
+      'sources': [
+        '<@(boringssl_crypto_sources)',
+      ],
+      'defines': [
+        'BORINGSSL_IMPLEMENTATION',
+        'BORINGSSL_NO_STATIC_INITIALIZER',
+        'OPENSSL_NO_ASM',
+        'OPENSSL_SMALL',
+      ],
+      'configurations': {
+        'Common_Base': {
+          'msvs_target_platform': 'x64',
+        },
+      },
+      # TODO(davidben): Fix size_t truncations in BoringSSL.
+      # https://crbug.com/429039
+      'msvs_disabled_warnings': [ 4267, ],
+      'conditions': [
+        ['component == "shared_library"', {
+          'defines': [
+            'BORINGSSL_SHARED_LIBRARY',
+          ],
+        }],
+        ['OS == "win" and OS_RUNTIME == "winrt"', {
+          'defines': [ 'OPENSSL_NO_ASM' ],
+          'sources': [ 'src/crypto/rand/windows_rand.cc', ],
+          'dependencies!': [ 'boringssl_asm' ],
+        }],
+      ],
+      'include_dirs': [
+        'src/include',
+      ],
+      'direct_dependent_settings': {
+        'include_dirs': [
+          'src/include',
+        ],
+        'conditions': [
+          ['component == "shared_library"', {
+            'defines': [
+              'BORINGSSL_SHARED_LIBRARY',
+            ],
+          }],
+        ],
+      },
+    },
     {
       'target_name': 'boringssl',
       'type': '<(component)',
@@ -29,12 +85,7 @@
             'BORINGSSL_SHARED_LIBRARY',
           ],
         }],
-        ['OS == "win" and OS_RUNTIME == "winrt"', {
-          'defines': [ 'OPENSSL_NO_ASM' ],
-          'sources': [ 'src/crypto/rand/windows_rand.cc', ],
-          'dependencies!': [ 'boringssl_asm' ],
-        }],
-     ],
+      ],
       'include_dirs': [
         'src/include',
       ],
@@ -96,7 +147,7 @@
         }],
         ['target_arch == "ia32" and msan == 0', {
           'conditions': [
-            ['OS == "mac" or OS == "ios"', {
+            ['OS == "mac"', {
               'sources': [ '<@(boringssl_mac_x86_sources)' ],
             }],
             ['OS == "linux" or OS == "android"', {
@@ -116,7 +167,7 @@
             ['OS == "win" and OS_RUNTIME == "winrt"', {
               'defines': [ 'OPENSSL_NO_ASM' ],
             }],
-            ['OS != "mac" and OS != "ios" and OS != "linux" and OS != "win" and OS != "android"', {
+            ['OS != "mac" and OS != "linux" and OS != "win" and OS != "android"', {
               'direct_dependent_settings': {
                 'defines': [ 'OPENSSL_NO_ASM' ],
               },
@@ -125,7 +176,7 @@
         }],
         ['target_arch == "x64" and msan == 0', {
           'conditions': [
-            ['OS == "mac" or OS == "ios"', {
+            ['OS == "mac"', {
               'sources': [ '<@(boringssl_mac_x86_64_sources)' ],
             }],
             ['OS == "linux" or OS == "android"', {
@@ -145,7 +196,7 @@
             ['OS == "win" and OS_RUNTIME == "winrt"', {
               'defines': [ 'OPENSSL_NO_ASM' ],
             }],
-            ['OS != "mac" and OS != "ios" and OS != "linux" and OS != "win" and OS != "android"', {
+            ['OS != "mac" and OS != "linux" and OS != "win" and OS != "android"', {
               'direct_dependent_settings': {
                 'defines': [ 'OPENSSL_NO_ASM' ],
               },

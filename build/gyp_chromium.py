@@ -10,6 +10,7 @@ import argparse
 import gc
 import glob
 import gyp_environment
+import mac_toolchain
 import os
 import re
 import shlex
@@ -209,7 +210,8 @@ def main():
     args.append('-Gconfig_path=' + args.pop(0))
     args.append('-Ganalyzer_output_path=' + args.pop(0))
 
-  if int(os.environ.get('GYP_CHROMIUM_NO_ACTION', 0)):
+  gyp_chromium_no_action = os.environ.get('GYP_CHROMIUM_NO_ACTION')
+  if gyp_chromium_no_action == '1':
     print 'Skipping gyp_chromium due to GYP_CHROMIUM_NO_ACTION env var.'
     sys.exit(0)
 
@@ -283,6 +285,13 @@ def main():
     print 'Did you mean to use the `msvs-ninja` generator?'
     sys.exit(1)
 
+  # We explicitly don't support the native xcode gyp generator. Be nice and
+  # fail here, rather than generating broken projects.
+  if re.search(r'(^|,|\s)xcode($|,|\s)', os.environ.get('GYP_GENERATORS', '')):
+    print 'Error: xcode gyp generator not supported (check GYP_GENERATORS).'
+    print 'Did you mean to use the `xcode-ninja` generator?'
+    sys.exit(1)
+
   # If CHROMIUM_GYP_SYNTAX_CHECK is set to 1, it will invoke gyp with --check
   # to enfore syntax checking.
   syntax_check = os.environ.get('CHROMIUM_GYP_SYNTAX_CHECK')
@@ -315,6 +324,22 @@ def main():
 
   args.extend(['-D', 'gyp_output_dir=' + GetOutputDirectory()])
 
+  mac_toolchain_dir = mac_toolchain.GetToolchainDirectory()
+  if mac_toolchain_dir:
+    args.append('-Gmac_toolchain_dir=' + mac_toolchain_dir)
+    mac_toolchain.SetToolchainEnvironment()
+
+  running_as_hook = '--running-as-hook'
+  if running_as_hook in args and gyp_chromium_no_action != '0':
+    print 'GYP is now disabled by default in runhooks.\n'
+    print 'If you really want to run this, either run '
+    print '`python build/gyp_chromium.py` explicitly by hand'
+    print 'or set the environment variable GYP_CHROMIUM_NO_ACTION=0.'
+    sys.exit(0)
+
+  if running_as_hook in args:
+    args.remove(running_as_hook)
+
   if not use_analyzer:
     print 'Updating projects from gyp files...'
     sys.stdout.flush()
@@ -322,7 +347,7 @@ def main():
   # Off we go...
   gyp_rc = gyp.main(args)
 
-  if not use_analyzer:
+  if gyp_rc == 0 and not use_analyzer:
     vs2013_runtime_dll_dirs = vs_toolchain.SetEnvironmentAndGetRuntimeDllDirs()
     if vs2013_runtime_dll_dirs:
       x64_runtime, x86_runtime = vs2013_runtime_dll_dirs

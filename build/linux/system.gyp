@@ -28,6 +28,8 @@
       'brlapi__readKey',
     ],
     'libgio_functions': [
+      'glib_check_version',
+      'g_type_init',
       'g_settings_new',
       'g_settings_get_child',
       'g_settings_get_string',
@@ -191,7 +193,7 @@
         },
       ],  # targets
     }],
-    [ 'use_x11==1 or ozone_platform_ozonex==1', {
+    [ 'use_x11==1', {
       # Hide X11 and related dependencies when use_x11=0
       'targets': [
         {
@@ -592,6 +594,27 @@
         },
       ],
     }],
+    ['ozone_platform_wayland==1', {
+      'targets': [
+        {
+          'target_name': 'wayland-egl',
+          'type': 'none',
+          'direct_dependent_settings': {
+            'cflags': [
+              '<!@(<(pkg-config) --cflags wayland-egl)',
+            ],
+          },
+          'link_settings': {
+            'ldflags': [
+              '<!@(<(pkg-config) --libs-only-L --libs-only-other wayland-egl)',
+            ],
+            'libraries': [
+              '<!@(<(pkg-config) --libs-only-l wayland-egl)',
+            ],
+          },
+        },
+      ],
+    }],
     ['use_udev==1', {
       'targets': [
         {
@@ -964,41 +987,14 @@
             'defines': [
               'USE_GNOME_KEYRING',
             ],
-            'conditions': [
-              ['linux_link_gnome_keyring==0', {
-                'defines': ['DLOPEN_GNOME_KEYRING'],
-              }],
-            ],
           },
-          'conditions': [
-            ['linux_link_gnome_keyring!=0', {
-              'link_settings': {
-                'ldflags': [
-                  '<!@(<(pkg-config) --libs-only-L --libs-only-other gnome-keyring-1)',
-                ],
-                'libraries': [
-                  '<!@(<(pkg-config) --libs-only-l gnome-keyring-1)',
-                ],
-              },
-            }, {
-              'conditions': [
-                ['OS=="linux"', {
-                 'link_settings': {
-                   'libraries': [
-                     '-ldl',
-                   ],
-                 },
-                }],
-              ],
-            }],
-          ],
         }],
       ],
     },
     {
       # The unit tests use a few convenience functions from the GNOME
-      # Keyring library directly. We ignore linux_link_gnome_keyring and
-      # link directly in this version of the target to allow this.
+      # Keyring library directly. We link directly in this version of
+      # the target to allow this.
       # *** Do not use this target in the main binary! ***
       'target_name': 'gnome_keyring_direct',
       'type': 'none',
@@ -1010,11 +1006,6 @@
             ],
             'defines': [
               'USE_GNOME_KEYRING',
-            ],
-            'conditions': [
-              ['linux_link_gnome_keyring==0', {
-                'defines': ['DLOPEN_GNOME_KEYRING'],
-              }],
             ],
           },
           'link_settings': {
@@ -1190,29 +1181,29 @@
             ['_toolset=="target"', {
               'direct_dependent_settings': {
                 'cflags': [
-                  '<!@(<(pkg-config) --cflags pangocairo pangoft2)',
+                  '<!@(<(pkg-config) --cflags pangocairo)',
                 ],
               },
               'link_settings': {
                 'ldflags': [
-                  '<!@(<(pkg-config) --libs-only-L --libs-only-other pangocairo pangoft2)',
+                  '<!@(<(pkg-config) --libs-only-L --libs-only-other pangocairo)',
                 ],
                 'libraries': [
-                  '<!@(<(pkg-config) --libs-only-l pangocairo pangoft2)',
+                  '<!@(<(pkg-config) --libs-only-l pangocairo)',
                 ],
               },
             }, {
               'direct_dependent_settings': {
                 'cflags': [
-                  '<!@(<(pkg-config) --cflags pangocairo pangoft2)',
+                  '<!@(<(pkg-config) --cflags pangocairo)',
                 ],
               },
               'link_settings': {
                 'ldflags': [
-                  '<!@(<(pkg-config) --libs-only-L --libs-only-other pangocairo pangoft2)',
+                  '<!@(<(pkg-config) --libs-only-L --libs-only-other pangocairo)',
                 ],
                 'libraries': [
-                  '<!@(<(pkg-config) --libs-only-l pangocairo pangoft2)',
+                  '<!@(<(pkg-config) --libs-only-l pangocairo)',
                 ],
               },
             }],
@@ -1221,59 +1212,38 @@
       ],
     },
     {
-      'target_name': 'ssl',
+      'target_name': 'nss',
       'type': 'none',
       'conditions': [
-        ['_toolset=="target"', {
+        # Link in the system NSS if it is used for the platform certificate
+        # library (use_nss_certs==1).
+        ['_toolset=="target" and use_nss_certs==1', {
+          'direct_dependent_settings': {
+            'cflags': [
+              '<!@(<(pkg-config) --cflags nss)',
+            ],
+          },
+          'link_settings': {
+            'ldflags': [
+              '<!@(<(pkg-config) --libs-only-L --libs-only-other nss)',
+            ],
+            'libraries': [
+              '<!@(<(pkg-config) --libs-only-l nss | sed -e "s/-lssl3//")',
+            ],
+          },
           'conditions': [
-            ['use_openssl==1', {
-              'dependencies': [
-                '../../third_party/boringssl/boringssl.gyp:boringssl',
-              ],
-            }, {
-              'dependencies': [
-                '../../net/third_party/nss/ssl.gyp:libssl',
-              ],
-              'direct_dependent_settings': {
-                'include_dirs+': [
-                  # We need for our local copies of the libssl3 headers to come
-                  # before other includes, as we are shadowing system headers.
-                  '<(DEPTH)/net/third_party/nss/ssl',
-                ],
-              },
-            }],
-            # Link in the system NSS if it is used for either the internal
-            # crypto library (use_openssl==0) or platform certificate
-            # library (use_nss_certs==1).
-            ['use_openssl==0 or use_nss_certs==1', {
+            ['clang==1', {
               'direct_dependent_settings': {
                 'cflags': [
-                  '<!@(<(pkg-config) --cflags nss)',
+                  # There is a broken header guard in /usr/include/nss/secmod.h:
+                  # https://bugzilla.mozilla.org/show_bug.cgi?id=884072
+                  '-Wno-header-guard',
                 ],
               },
-              'link_settings': {
-                'ldflags': [
-                  '<!@(<(pkg-config) --libs-only-L --libs-only-other nss)',
-                ],
-                'libraries': [
-                  '<!@(<(pkg-config) --libs-only-l nss | sed -e "s/-lssl3//")',
-                ],
-              },
-              'conditions': [
-                ['clang==1', {
-                  'direct_dependent_settings': {
-                    'cflags': [
-                      # There is a broken header guard in /usr/include/nss/secmod.h:
-                      # https://bugzilla.mozilla.org/show_bug.cgi?id=884072
-                      '-Wno-header-guard',
-                    ],
-                  },
-                }],
-              ],
             }],
-          ]
+          ],
         }],
-      ],
+      ]
     },
     {
       'target_name': 'libffi',

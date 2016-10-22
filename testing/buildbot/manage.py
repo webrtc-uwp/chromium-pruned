@@ -141,15 +141,9 @@ SKIP_GN_ISOLATE_MAP_TARGETS = {
   'chromevox_tests',
   'nacl_helper_nonsfi_unittests',
 
-  # These targets are run on the bots but not listed in the
-  # buildbot JSON files.
-  # TODO(kbr): remove these before closing http://crbug.com/542370 .
-  'angle_end2end_tests',
-  'content_gl_tests',
-  'gl_tests',
-  'gl_unittests',
-  'gles2_conform_test',
-  'tab_capture_end2end_tests',
+  # TODO(kbr): teach this script about isolated_scripts tests.
+  # crbug.com/620531
+  'telemetry_gpu_integration_test',
   'telemetry_gpu_test',
   'telemetry_gpu_unittests',
   'telemetry_perf_unittests',
@@ -230,6 +224,7 @@ def process_file(mode, test_name, tests_location, filepath, ninja_targets,
       raise Error(
           '%s: %s is broken: %s' % (filename, builder, data['gtest_tests']))
 
+    seen = set()
     for d in data['gtest_tests']:
       if (d['test'] not in ninja_targets and
           d['test'] not in SKIP_GN_ISOLATE_MAP_TARGETS):
@@ -237,6 +232,12 @@ def process_file(mode, test_name, tests_location, filepath, ninja_targets,
                     (filename, builder, d['test']))
       elif d['test'] in ninja_targets:
         ninja_targets_seen.add(d['test'])
+
+      name = d.get('name', d['test'])
+      if name in seen:
+        raise Error('%s: %s / %s is listed multiple times.' %
+                    (filename, builder, name))
+      seen.add(name)
 
     config[builder]['gtest_tests'] = sorted(
         data['gtest_tests'], key=lambda x: x['test'])

@@ -1,4 +1,9 @@
 {
+  "Linux ChromiumOS Builder": {
+    "additional_compile_targets": [
+      "All"
+    ]
+  },
   "Linux ChromiumOS GN": {
     "additional_compile_targets": [
       "gn_all"
@@ -9,6 +14,21 @@
           "can_use_on_swarming_builders": true
         },
         "test": "base_unittests"
+      },
+      {
+        "swarming": {
+          "can_use_on_swarming_builders": true
+        },
+        "test": "exo_unittests"
+      },
+      {
+        "args": [
+          "--override-use-gl-with-osmesa-for-tests"
+        ],
+        "swarming": {
+          "can_use_on_swarming_builders": true
+        },
+        "test": "mash_unittests"
       }
     ]
   },
@@ -22,6 +42,21 @@
           "can_use_on_swarming_builders": true
         },
         "test": "base_unittests"
+      },
+      {
+        "swarming": {
+          "can_use_on_swarming_builders": true
+        },
+        "test": "exo_unittests"
+      },
+      {
+        "args": [
+          "--override-use-gl-with-osmesa-for-tests"
+        ],
+        "swarming": {
+          "can_use_on_swarming_builders": true
+        },
+        "test": "mash_unittests"
       }
     ]
   },
@@ -32,6 +67,12 @@
           "can_use_on_swarming_builders": true
         },
         "test": "accessibility_unittests"
+      },
+      {
+        "swarming": {
+          "can_use_on_swarming_builders": true
+        },
+        "test": "app_list_presenter_unittests"
       },
       {
         "swarming": {
@@ -73,9 +114,18 @@
         "swarming": {
           "can_use_on_swarming_builders": true
         },
+        "test": "capture_unittests"
+      },
+      {
+        "swarming": {
+          "can_use_on_swarming_builders": true
+        },
         "test": "chromeos_unittests"
       },
       {
+        "swarming": {
+          "can_use_on_swarming_builders": true
+        },
         "test": "chromevox_tests"
       },
       {
@@ -102,9 +152,6 @@
           "can_use_on_swarming_builders": true
         },
         "test": "crypto_unittests"
-      },
-      {
-        "test": "dbus_unittests"
       },
       {
         "swarming": {
@@ -152,13 +199,31 @@
         "swarming": {
           "can_use_on_swarming_builders": true
         },
+        "test": "gl_unittests"
+      },
+      {
+        "swarming": {
+          "can_use_on_swarming_builders": true
+        },
         "test": "google_apis_unittests"
       },
       {
         "swarming": {
           "can_use_on_swarming_builders": true
         },
+        "test": "gpu_ipc_service_unittests"
+      },
+      {
+        "swarming": {
+          "can_use_on_swarming_builders": true
+        },
         "test": "gpu_unittests"
+      },
+      {
+        "swarming": {
+          "can_use_on_swarming_builders": true
+        },
+        "test": "input_device_unittests"
       },
       {
         "swarming": {
@@ -204,6 +269,9 @@
         "test": "midi_unittests"
       },
       {
+        "swarming": {
+          "can_use_on_swarming_builders": true
+        },
         "test": "nacl_helper_nonsfi_unittests"
       },
       {
@@ -219,6 +287,15 @@
         "test": "net_unittests"
       },
       {
+        "swarming": {
+          "can_use_on_swarming_builders": true
+        },
+        "test": "ozone_gl_unittests"
+      },
+      {
+        "swarming": {
+          "can_use_on_swarming_builders": true
+        },
         "test": "ozone_unittests"
       },
       {
@@ -264,7 +341,7 @@
         "swarming": {
           "can_use_on_swarming_builders": true
         },
-        "test": "sync_unit_tests"
+        "test": "ui_arc_unittests"
       },
       {
         "swarming": {
@@ -273,7 +350,16 @@
         "test": "ui_base_unittests"
       },
       {
+        "swarming": {
+          "can_use_on_swarming_builders": true
+        },
         "test": "ui_chromeos_unittests"
+      },
+      {
+        "swarming": {
+          "can_use_on_swarming_builders": true
+        },
+        "test": "ui_struct_traits_unittests"
       },
       {
         "swarming": {
@@ -319,6 +405,12 @@
         "swarming": {
           "can_use_on_swarming_builders": true
         },
+        "test": "app_list_presenter_unittests"
+      },
+      {
+        "swarming": {
+          "can_use_on_swarming_builders": true
+        },
         "test": "app_list_unittests"
       },
       {
@@ -346,6 +438,19 @@
         "test": "base_unittests"
       },
       {
+        "args": [
+          "--override-use-gl-with-osmesa-for-tests",
+          "--run-in-mash",
+          "--test-launcher-filter-file=src/testing/buildbot/filters/mash.browser_tests.filter",
+          "--use-test-config"
+        ],
+        "name": "mash_browser_tests",
+        "swarming": {
+          "can_use_on_swarming_builders": false
+        },
+        "test": "browser_tests"
+      },
+      {
         "swarming": {
           "can_use_on_swarming_builders": true,
           "shards": 5
@@ -362,6 +467,12 @@
         "swarming": {
           "can_use_on_swarming_builders": true
         },
+        "test": "capture_unittests"
+      },
+      {
+        "swarming": {
+          "can_use_on_swarming_builders": true
+        },
         "test": "chrome_app_unittests"
       },
       {
@@ -371,6 +482,9 @@
         "test": "chromeos_unittests"
       },
       {
+        "swarming": {
+          "can_use_on_swarming_builders": true
+        },
         "test": "chromevox_tests"
       },
       {
@@ -404,9 +518,6 @@
         "test": "crypto_unittests"
       },
       {
-        "test": "dbus_unittests"
-      },
-      {
         "swarming": {
           "can_use_on_swarming_builders": true
         },
@@ -423,6 +534,12 @@
           "can_use_on_swarming_builders": true
         },
         "test": "events_unittests"
+      },
+      {
+        "swarming": {
+          "can_use_on_swarming_builders": true
+        },
+        "test": "exo_unittests"
       },
       {
         "swarming": {
@@ -458,7 +575,19 @@
         "swarming": {
           "can_use_on_swarming_builders": true
         },
+        "test": "gpu_ipc_service_unittests"
+      },
+      {
+        "swarming": {
+          "can_use_on_swarming_builders": true
+        },
         "test": "gpu_unittests"
+      },
+      {
+        "swarming": {
+          "can_use_on_swarming_builders": true
+        },
+        "test": "input_device_unittests"
       },
       {
         "swarming": {
@@ -477,6 +606,15 @@
           "can_use_on_swarming_builders": true
         },
         "test": "jingle_unittests"
+      },
+      {
+        "args": [
+          "--override-use-gl-with-osmesa-for-tests"
+        ],
+        "swarming": {
+          "can_use_on_swarming_builders": true
+        },
+        "test": "mash_unittests"
       },
       {
         "swarming": {
@@ -503,6 +641,9 @@
         "test": "midi_unittests"
       },
       {
+        "swarming": {
+          "can_use_on_swarming_builders": true
+        },
         "test": "nacl_helper_nonsfi_unittests"
       },
       {
@@ -560,7 +701,7 @@
         "swarming": {
           "can_use_on_swarming_builders": true
         },
-        "test": "sync_unit_tests"
+        "test": "ui_arc_unittests"
       },
       {
         "swarming": {
@@ -569,7 +710,16 @@
         "test": "ui_base_unittests"
       },
       {
+        "swarming": {
+          "can_use_on_swarming_builders": true
+        },
         "test": "ui_chromeos_unittests"
+      },
+      {
+        "swarming": {
+          "can_use_on_swarming_builders": true
+        },
+        "test": "ui_struct_traits_unittests"
       },
       {
         "swarming": {
@@ -610,6 +760,12 @@
           "can_use_on_swarming_builders": true
         },
         "test": "accessibility_unittests"
+      },
+      {
+        "swarming": {
+          "can_use_on_swarming_builders": true
+        },
+        "test": "app_list_presenter_unittests"
       },
       {
         "swarming": {
@@ -658,6 +814,12 @@
         "swarming": {
           "can_use_on_swarming_builders": true
         },
+        "test": "capture_unittests"
+      },
+      {
+        "swarming": {
+          "can_use_on_swarming_builders": true
+        },
         "test": "chrome_app_unittests"
       },
       {
@@ -696,9 +858,6 @@
           "can_use_on_swarming_builders": true
         },
         "test": "crypto_unittests"
-      },
-      {
-        "test": "dbus_unittests"
       },
       {
         "swarming": {
@@ -752,6 +911,12 @@
         "swarming": {
           "can_use_on_swarming_builders": true
         },
+        "test": "gpu_ipc_service_unittests"
+      },
+      {
+        "swarming": {
+          "can_use_on_swarming_builders": true
+        },
         "test": "gpu_unittests"
       },
       {
@@ -798,6 +963,9 @@
         "test": "midi_unittests"
       },
       {
+        "swarming": {
+          "can_use_on_swarming_builders": true
+        },
         "test": "nacl_helper_nonsfi_unittests"
       },
       {
@@ -855,7 +1023,7 @@
         "swarming": {
           "can_use_on_swarming_builders": true
         },
-        "test": "sync_unit_tests"
+        "test": "ui_arc_unittests"
       },
       {
         "swarming": {
@@ -864,6 +1032,9 @@
         "test": "ui_base_unittests"
       },
       {
+        "swarming": {
+          "can_use_on_swarming_builders": true
+        },
         "test": "ui_chromeos_unittests"
       },
       {

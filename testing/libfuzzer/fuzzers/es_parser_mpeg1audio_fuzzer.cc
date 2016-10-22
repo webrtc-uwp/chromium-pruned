@@ -5,6 +5,8 @@
 #include <stddef.h>
 #include <stdint.h>
 
+#include <memory>
+
 #include "base/bind.h"
 #include "media/formats/mp2t/es_parser_mpeg1audio.h"
 
@@ -13,7 +15,7 @@ class NullMediaLog : public media::MediaLog {
   NullMediaLog() {}
 
   void DoAddEventLogString(const std::string& event) {}
-  void AddEvent(scoped_ptr<media::MediaLogEvent> event) override {}
+  void AddEvent(std::unique_ptr<media::MediaLogEvent> event) override {}
 
  protected:
   virtual ~NullMediaLog() {}
@@ -30,7 +32,7 @@ extern "C" int LLVMFuzzerTestOneInput(const uint8_t* data, size_t size) {
   scoped_refptr<NullMediaLog> media_log(new NullMediaLog());
   media::mp2t::EsParserMpeg1Audio es_parser(base::Bind(&NewAudioConfig),
                                             base::Bind(&EmitBuffer), media_log);
-  if (!es_parser.Parse(data, size, media::kNoTimestamp(),
+  if (!es_parser.Parse(data, size, media::kNoTimestamp,
                        media::kNoDecodeTimestamp())) {
     return 0;
   }
