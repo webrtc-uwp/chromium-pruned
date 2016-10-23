@@ -54,6 +54,16 @@
 
 #define PI (3.141592653589793238462643f)
 
+#ifdef WINRT
+//WinRT runtime doesn't support basic executables. Test are run using WinRT application as runner
+//and this project as a static library, so we need exclusive main function name.
+# define main opus_encode_main
+#include <windows.h>
+//make stderr same as stdout
+#undef stderr
+#define stderr stdout
+#endif
+
 void generate_music(short *buf, opus_int32 len)
 {
    opus_int32 a1,b1,a2,b2;

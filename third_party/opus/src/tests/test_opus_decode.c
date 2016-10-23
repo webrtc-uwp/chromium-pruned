@@ -48,6 +48,16 @@
 #define MAX_PACKET (1500)
 #define MAX_FRAME_SAMP (5760)
 
+#ifdef WINRT
+//WinRT runtime doesn't support basic executables. Test are run using WinRT application as runner
+//and this project as a static library, so we need exclusive main function name.
+# define main opus_decode_main
+#include <windows.h>
+//make stderr same as stdout
+#undef stderr
+#define stderr stdout
+#endif
+
 int test_decoder_code0(int no_fuzz)
 {
    static const opus_int32 fsv[5]={48000,24000,16000,12000,8000};
