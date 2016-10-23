@@ -350,12 +350,6 @@ void vp9_lpf_vertical_8_c(uint8_t *s, int pitch, const uint8_t *blimit, const ui
 void vp9_lpf_vertical_8_dual_c(uint8_t *s, int pitch, const uint8_t *blimit0, const uint8_t *limit0, const uint8_t *thresh0, const uint8_t *blimit1, const uint8_t *limit1, const uint8_t *thresh1);
 #define vp9_lpf_vertical_8_dual vp9_lpf_vertical_8_dual_c
 
-void vp9_mbpost_proc_across_ip_c(uint8_t *src, int pitch, int rows, int cols, int flimit);
-#define vp9_mbpost_proc_across_ip vp9_mbpost_proc_across_ip_c
-
-void vp9_mbpost_proc_down_c(uint8_t *dst, int pitch, int rows, int cols, int flimit);
-#define vp9_mbpost_proc_down vp9_mbpost_proc_down_c
-
 unsigned int vp9_mse16x16_c(const uint8_t *src_ptr, int  source_stride, const uint8_t *ref_ptr, int  recon_stride, unsigned int *sse);
 #define vp9_mse16x16 vp9_mse16x16_c
 
@@ -367,12 +361,6 @@ unsigned int vp9_mse8x16_c(const uint8_t *src_ptr, int  source_stride, const uin
 
 unsigned int vp9_mse8x8_c(const uint8_t *src_ptr, int  source_stride, const uint8_t *ref_ptr, int  recon_stride, unsigned int *sse);
 #define vp9_mse8x8 vp9_mse8x8_c
-
-void vp9_plane_add_noise_c(uint8_t *Start, char *noise, char blackclamp[16], char whiteclamp[16], char bothclamp[16], unsigned int Width, unsigned int Height, int Pitch);
-#define vp9_plane_add_noise vp9_plane_add_noise_c
-
-void vp9_post_proc_down_and_across_c(const uint8_t *src_ptr, uint8_t *dst_ptr, int src_pixels_per_line, int dst_pixels_per_line, int rows, int cols, int flimit);
-#define vp9_post_proc_down_and_across vp9_post_proc_down_and_across_c
 
 void vp9_quantize_b_c(const tran_low_t *coeff_ptr, intptr_t n_coeffs, int skip_block, const int16_t *zbin_ptr, const int16_t *round_ptr, const int16_t *quant_ptr, const int16_t *quant_shift_ptr, tran_low_t *qcoeff_ptr, tran_low_t *dqcoeff_ptr, const int16_t *dequant_ptr, uint16_t *eob_ptr, const int16_t *scan, const int16_t *iscan);
 #define vp9_quantize_b vp9_quantize_b_c

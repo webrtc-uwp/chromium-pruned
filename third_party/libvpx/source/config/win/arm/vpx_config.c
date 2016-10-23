@@ -6,5 +6,5 @@
 /* in the file PATENTS.  All contributing project authors may */
 /* be found in the AUTHORS file in the root of the source tree. */
 #include "vpx/vpx_codec.h"
-static const char* const cfg = "--target=armv6-win-vs12 --enable-realtime-only --enable-external-build --enable-postproc --disable-install-srcs --enable-multi-res-encoding --enable-temporal-denoising --disable-unit-tests --disable-install-docs --disable-examples --enable-vp9-temporal-denoising";
+static const char* const cfg = "--target=armv7-win-vs12 --enable-realtime-only --disable-neon --enable-external-build --enable-postproc --disable-install-srcs --enable-multi-res-encoding --enable-temporal-denoising --disable-unit-tests --disable-install-docs --disable-examples --enable-vp9-temporal-denoising";
 const char *vpx_codec_build_config(void) {return cfg;}
