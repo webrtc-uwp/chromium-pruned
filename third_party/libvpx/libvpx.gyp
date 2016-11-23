@@ -309,7 +309,7 @@
         {
           # This libvpx target contains both encoder and decoder.
           # Encoder is configured to be realtime only.
-          'target_name': 'libvpx_new',
+          'target_name': 'libvpx',
           'type': 'static_library',
           
           # Rule to convert .asm files to .S files.

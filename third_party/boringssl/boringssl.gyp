@@ -41,11 +41,6 @@
             'BORINGSSL_SHARED_LIBRARY',
           ],
         }],
-        ['OS == "win" and OS_RUNTIME == "winrt"', {
-          'defines': [ 'OPENSSL_NO_ASM' ],
-          'sources': [ 'src/crypto/rand/windows_rand.cc', ],
-          'dependencies!': [ 'boringssl_asm' ],
-        }],
       ],
       'include_dirs': [
         'src/include',
@@ -84,6 +79,11 @@
           'defines': [
             'BORINGSSL_SHARED_LIBRARY',
           ],
+        }],
+        ['OS == "win" and OS_RUNTIME == "winrt"', {
+          'defines': [ 'OPENSSL_NO_ASM' ],
+          'sources': [ 'src/crypto/rand/windows_rand.cc', ],
+          'dependencies!': [ 'boringssl_asm' ],
         }],
       ],
       'include_dirs': [
