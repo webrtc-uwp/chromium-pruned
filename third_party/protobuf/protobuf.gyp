@@ -500,6 +500,7 @@
           ],
           'dependencies': [
             'protoc_lib',
+			'protobuf_full_do_not_use',
           ],
           'include_dirs': [
             'src',
