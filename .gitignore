@@ -344,6 +344,7 @@ vs-chromium-project.txt
 /third_party/fontconfig/src
 /third_party/freetype-android/src
 /third_party/freetype2/src
+/third_party/gflags
 /third_party/gles2_conform
 /third_party/glslang/src
 /third_party/gnu_binutils/
