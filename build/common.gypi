@@ -3340,6 +3340,8 @@
                     'delayimp.lib',
                     'credui.lib',
                     'netapi32.lib',
+					'ucrtd.lib', 
+					'ucrt.lib',
                   ],
                   'AdditionalOptions': [
                     # Suggested by Microsoft Devrel to avoid
