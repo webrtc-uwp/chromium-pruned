@@ -30,7 +30,7 @@
           ],
         }],
         ['OS == "win" and OS_RUNTIME == "winrt"', {
-          'defines': [ 'OPENSSL_NO_ASM' ],
+          'defines': [ 'OPENSSL_NO_ASM', 'OPENSSL_USE_BCRYPT' ],
           'sources': [ 'src/crypto/rand/windows_rand.cc', ],
           'dependencies!': [ 'boringssl_asm' ],
         }],
@@ -103,6 +103,7 @@
               'sources': [ '<@(boringssl_linux_x86_sources)' ],
             }],
             ['OS == "win" and OS_RUNTIME == "win32"', {
+			  'defines': [ 'OPENSSL_USE_BCRYPT' ],
               'sources': [ '<@(boringssl_win_x86_sources)' ],
               # Windows' assembly is built with Yasm. The other platforms use
               # the platform assembler.
@@ -114,7 +115,7 @@
               ],
             }],
             ['OS == "win" and OS_RUNTIME == "winrt"', {
-              'defines': [ 'OPENSSL_NO_ASM' ],
+              'defines': [ 'OPENSSL_NO_ASM', 'OPENSSL_USE_BCRYPT' ],
             }],
             ['OS != "mac" and OS != "ios" and OS != "linux" and OS != "win" and OS != "android"', {
               'direct_dependent_settings': {
@@ -132,6 +133,7 @@
               'sources': [ '<@(boringssl_linux_x86_64_sources)' ],
             }],
             ['OS == "win" and OS_RUNTIME == "win32"', {
+			  'defines': [ 'OPENSSL_USE_BCRYPT' ],
               'sources': [ '<@(boringssl_win_x86_64_sources)' ],
               # Windows' assembly is built with Yasm. The other platforms use
               # the platform assembler.
@@ -143,7 +145,7 @@
               ],
             }],
             ['OS == "win" and OS_RUNTIME == "winrt"', {
-              'defines': [ 'OPENSSL_NO_ASM' ],
+              'defines': [ 'OPENSSL_NO_ASM', 'OPENSSL_USE_BCRYPT' ],
             }],
             ['OS != "mac" and OS != "ios" and OS != "linux" and OS != "win" and OS != "android"', {
               'direct_dependent_settings': {

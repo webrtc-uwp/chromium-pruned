@@ -42,6 +42,7 @@
     'boringssl_crypto_sources': [
       'err_data.c',
       'src/crypto/aes/aes.c',
+      'src/crypto/aes/aes_bcrypt.c',
       'src/crypto/aes/mode_wrappers.c',
       'src/crypto/asn1/a_bitstr.c',
       'src/crypto/asn1/a_bool.c',
@@ -122,6 +123,7 @@
       'src/crypto/cipher/cipher.c',
       'src/crypto/cipher/derive_key.c',
       'src/crypto/cipher/e_aes.c',
+      'src/crypto/cipher/e_aes_bcrypt.c',
       'src/crypto/cipher/e_chacha20poly1305.c',
       'src/crypto/cipher/e_des.c',
       'src/crypto/cipher/e_null.c',
