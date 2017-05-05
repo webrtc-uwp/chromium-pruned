@@ -87,7 +87,7 @@ def RunGsutil(args):
 
 def GsutilArchiveExists(archive_name, platform):
   gsutil_args = ['-q', 'stat',
-                 'gs://chromium-browser-clang/%s/%s.tgz' %
+                 'gs://chromium-browser-clang-staging/%s/%s.tgz' %
                  (platform, archive_name)]
   return RunGsutil(gsutil_args) == 0
 
@@ -97,7 +97,7 @@ def MaybeUpload(args, archive_name, platform):
   # so -n option to gsutil is used. It will warn, if the upload was aborted.
   gsutil_args = ['cp', '-n', '-a', 'public-read',
                   '%s.tgz' % archive_name,
-                  'gs://chromium-browser-clang/%s/%s.tgz' %
+                  'gs://chromium-browser-clang-staging/%s/%s.tgz' %
                  (platform, archive_name)]
   if args.upload:
     print 'Uploading %s to Google Cloud Storage...' % archive_name
@@ -141,9 +141,10 @@ def main():
       GsutilArchiveExists(golddir, platform)):
     print ('Desired toolchain revision %s is already available '
            'in Google Cloud Storage:') % expected_stamp
-    print 'gs://chromium-browser-clang/%s/%s.tgz' % (platform, pdir)
+    print 'gs://chromium-browser-clang-staging/%s/%s.tgz' % (platform, pdir)
     if sys.platform.startswith('linux'):
-      print 'gs://chromium-browser-clang/%s/%s.tgz' % (platform, golddir)
+      print 'gs://chromium-browser-clang-staging/%s/%s.tgz' % (platform,
+                                                               golddir)
     return 0
 
   with open('buildlog.txt', 'w') as log:
@@ -211,11 +212,12 @@ def main():
                  'lib/libBlinkGCPlugin.' + so_ext,
                  ])
   if sys.platform == 'darwin':
-    want.extend([# Copy only the OSX (ASan and profile) and iossim (ASan)
-                 # runtime libraries:
+    want.extend([# Copy only the OSX and iossim (ASan and profile) runtime
+                 # libraries:
                  'lib/clang/*/lib/darwin/*asan_osx*',
                  'lib/clang/*/lib/darwin/*asan_iossim*',
                  'lib/clang/*/lib/darwin/*profile_osx*',
+                 'lib/clang/*/lib/darwin/*profile_iossim*',
                  ])
   elif sys.platform.startswith('linux'):
     # Copy the libstdc++.so.6 we linked Clang against so it can run.
