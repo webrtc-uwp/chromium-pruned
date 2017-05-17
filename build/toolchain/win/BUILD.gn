@@ -419,7 +419,7 @@ if (target_os == "winrt_81" || target_os == "winrt_81_phone" ||
     target_os == "winrt_10") {
   msvc_toolchain("winrt_x86") {
     environment = "environment.winrt_x86"
-    cl = "${goma_prefix}\"${vc_bin_dir}/cl.exe\""
+    cl = "C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\amd64_x86\cl.exe"
 
     toolchain_args = {
       is_clang = false
@@ -429,7 +429,7 @@ if (target_os == "winrt_81" || target_os == "winrt_81_phone" ||
 
   msvc_toolchain("winrt_x64") {
     environment = "environment.winrt_x64"
-    cl = "${goma_prefix}\"${vc_bin_dir}/cl.exe\""
+    cl = "C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\amd64\cl.exe"
 
     toolchain_args = {
       is_clang = false
