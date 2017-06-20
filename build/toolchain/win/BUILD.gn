@@ -393,6 +393,42 @@ template("win_x64_toolchains") {
   }
 }
 
+# arm toolchains. Only define these when the target architecture is 32-bit
+# since we don't do any 32-bit cross compiles when targeting 64-bit (the
+# build does generate some 64-bit stuff from 32-bit target builds).
+if (target_cpu == "arm") {
+  arm_toolchain_data = exec_script("setup_toolchain.py",
+                                   [
+                                     visual_studio_path,
+                                     windows_sdk_path,
+                                     visual_studio_runtime_dirs,
+                                     "arm",
+                                   ],
+                                   "scope")
+
+  msvc_toolchain("arm") {
+    environment = "environment.arm"
+    cl = "${goma_prefix}\"${arm_toolchain_data.vc_bin_dir}/cl.exe\""
+    toolchain_args = {
+      current_cpu = "arm"
+      is_clang = false
+    }
+  }
+
+  msvc_toolchain("clang_arm") {
+    environment = "environment.arm"
+    prefix = rebase_path("$clang_base_path/bin", root_build_dir)
+    cl = "${goma_prefix}$prefix/${clang_cl}"
+    sys_include_flags = "${arm_toolchain_data.include_flags_imsvc}"
+
+    toolchain_args = {
+      current_cpu = "arm"
+      is_clang = true
+    }
+  }
+}
+
+
 win_x64_toolchains("x64") {
   toolchain_args = {
     # Use the defaults.
@@ -411,12 +447,21 @@ win_x64_toolchains("nacl_win64") {
 }
 
 # WinRT toolchains. Only define these when targeting them.
-if (target_os == "winrt_81" || target_os == "winrt_81_phone" ||
-    target_os == "winrt_10") {
+if (is_winrt) {
   if (target_cpu == "x86") {
+    winrt_x86_toolchain_data = exec_script("setup_toolchain.py",
+                                     [
+                                       visual_studio_path,
+                                       windows_sdk_path,
+                                       visual_studio_runtime_dirs,
+                                       "x86",
+                                       "store",
+                                     ],
+                                     "scope")
+
     msvc_toolchain("winrt_x86") {
       environment = "environment.winrt_x86"
-      cl = "${goma_prefix}\"${x86_toolchain_data.vc_bin_dir}\cl.exe\""
+      cl = "${goma_prefix}\"${winrt_x86_toolchain_data.vc_bin_dir}\cl.exe\""
       toolchain_args = {
         is_clang = false
         current_cpu = "x86"
@@ -425,13 +470,34 @@ if (target_os == "winrt_81" || target_os == "winrt_81_phone" ||
   }
 
   if (target_cpu == "x64") {
+    winrt_x64_toolchain_data = exec_script("setup_toolchain.py",
+                                     [
+                                       visual_studio_path,
+                                       windows_sdk_path,
+                                       visual_studio_runtime_dirs,
+                                       "x64",
+                                       "store"
+                                     ],
+                                     "scope")
     msvc_toolchain("winrt_x64") {
       environment = "environment.winrt_x64"
-      cl = "${goma_prefix}\"${x64_toolchain_data.vc_bin_dir}\cl.exe\""
+      cl = "${goma_prefix}\"${winrt_x64_toolchain_data.vc_bin_dir}\cl.exe\""
       toolchain_args = {
         is_clang = false
         current_cpu = "x64"
       }
     }
   }
+
+  if (target_cpu == "arm") {
+    msvc_toolchain("winrt_arm") {
+      environment = "environment.winrt_arm"
+      cl = "${goma_prefix}\"${arm_toolchain_data.vc_bin_dir}\cl.exe\""
+      toolchain_args = {
+        is_clang = false
+        current_cpu = "arm"
+      }
+    }
+  }
+
 }
