@@ -282,7 +282,7 @@ config("default_crt") {
     # exceptions on.
     configs = [ ":dynamic_crt" ]
   } else {
-    if (current_os != "win") {
+    if (current_os != "win" || is_winrt) {
       # WindowsRT: use the dynamic CRT.
       configs = [ ":dynamic_crt" ]
     } else {
@@ -404,10 +404,14 @@ config("target_winrt") {
   defines = [
     "WINRT",
     "WINAPI_FAMILY=WINAPI_FAMILY_PC_APP",
+    "WIN10",
   ]
   cflags_cc = [
     "/ZW",
     "/EHsc",
+  ]
+  arflags = [
+    "/IGNORE:4264"
   ]
 }
 
