@@ -166,10 +166,27 @@ if (current_toolchain == host_toolchain) {
     }
   }
 
-  config("re2c_forced_include") {
+  config("winrt_compat_forced_include_win") {
     if (is_winrt) {
       cflags_c = [
-        "/FIwinrt_compat.h",
+        "/FIwinrt_compat_win.h",
+        "/I../../third_party/yasm",
+      ]
+      cflags = [
+        "/FIwinrt_compat_win.h",
+        "/I../../third_party/yasm",
+      ]
+    }
+  }
+
+  config("winrt_compat_forced_include_std") {
+    if (is_winrt) {
+      cflags_c = [
+        "/FIwinrt_compat_std.h",
+        "/I../../third_party/yasm",
+      ]
+      cflags = [
+        "/FIwinrt_compat_std.h",
         "/I../../third_party/yasm",
       ]
     }
@@ -189,7 +206,7 @@ if (current_toolchain == host_toolchain) {
     ]
     if (is_winrt) {
       sources += [
-        "winrt_compat.c",
+        "winrt_compat_win.cc",
       ]
     }
 
@@ -201,7 +218,7 @@ if (current_toolchain == host_toolchain) {
       # Must be after no_chromium_code for warning flags to be ordered
       # correctly.
       ":re2c_warnings",
-      ":re2c_forced_include",
+      ":winrt_compat_forced_include_win",
     ]
     deps = [
       "//build/config/sanitizers:deps",
@@ -303,6 +320,12 @@ if (current_toolchain == host_toolchain) {
       "$target_gen_dir/module.c",
     ]
 
+    if (is_winrt) {
+      sources += [
+        "winrt_compat_std.cc",
+      ]
+    }
+
     configs -= [ "//build/config/compiler:chromium_code" ]
     configs += [
       ":yasm_config",
@@ -312,6 +335,7 @@ if (current_toolchain == host_toolchain) {
       # Must be after no_chromium_code for warning flags to be ordered
       # correctly.
       ":yasm_warnings",
+      ":winrt_compat_forced_include_std",
     ]
 
     # Disable WPO for yasm: crbug.com/604808
