@@ -3,6 +3,8 @@
  This header is injected using /FI cl.exe flag for re2c project.
 */
 
+#pragma once
+
 #include <windows.h>
 
 #define CreateFileW(xFileName,xAccess,xSharedMode,xSecuriteParams,xCreationDisposition,xFlagsAndAttributes,xTemplateFile) \

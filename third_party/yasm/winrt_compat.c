@@ -5,9 +5,6 @@
 
 #include "winrt_compat.h"
 
-#define CreateFileW(xFileName,xAccess,xSharedMode,xSecuriteParams,xCreationDisposition,xFlagsAndAttributes,xTemplateFile) \
-	winrtCreateFileW(xFileName,xAccess,xSharedMode,xSecuriteParams,xCreationDisposition,xFlagsAndAttributes,xTemplateFile)
-
 #ifdef __cplusplus
   extern "C" {
 #endif /* __cplusplus */
@@ -56,3 +53,4 @@ HANDLE WINAPI winrtCreateFileW(
 #ifdef __cplusplus
   }
 #endif /* __cplusplus */
+  
