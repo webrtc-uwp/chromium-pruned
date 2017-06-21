@@ -170,11 +170,11 @@ if (current_toolchain == host_toolchain) {
     if (is_winrt) {
       cflags_c = [
         "/FIwinrt_compat_win.h",
-        "/I../../third_party/yasm",
+        "/I../../third_party/winrt_compat",
       ]
       cflags = [
         "/FIwinrt_compat_win.h",
-        "/I../../third_party/yasm",
+        "/I../../third_party/winrt_compat",
       ]
     }
   }
@@ -183,11 +183,11 @@ if (current_toolchain == host_toolchain) {
     if (is_winrt) {
       cflags_c = [
         "/FIwinrt_compat_std.h",
-        "/I../../third_party/yasm",
+        "/I../../third_party/winrt_compat",
       ]
       cflags = [
         "/FIwinrt_compat_std.h",
-        "/I../../third_party/yasm",
+        "/I../../third_party/winrt_compat",
       ]
     }
   }
@@ -206,7 +206,7 @@ if (current_toolchain == host_toolchain) {
     ]
     if (is_winrt) {
       sources += [
-        "winrt_compat_win.cc",
+        "../winrt_compat/winrt_compat_win.cc",
       ]
     }
 
@@ -322,7 +322,7 @@ if (current_toolchain == host_toolchain) {
 
     if (is_winrt) {
       sources += [
-        "winrt_compat_std.cc",
+        "../winrt_compat/winrt_compat_std.cc",
       ]
     }
 

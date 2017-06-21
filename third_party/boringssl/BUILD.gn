@@ -9,6 +9,20 @@ import("//testing/libfuzzer/fuzzer_test.gni")
 import("BUILD.generated.gni")
 import("BUILD.generated_tests.gni")
 
+# Configuration to add winrt support
+config("winrt_compat_forced_include_std") {
+  if (is_winrt) {
+    cflags_c = [
+      "/FIwinrt_compat_std.h",
+      "/I../../third_party/winrt_compat",
+    ]
+    cflags = [
+      "/FIwinrt_compat_std.h",
+      "/I../../third_party/winrt_compat",
+    ]
+  }
+}
+
 # Config for us and everybody else depending on BoringSSL.
 config("external_config") {
   include_dirs = [ "src/include" ]
@@ -118,6 +132,14 @@ component("boringssl") {
   configs -= [ "//build/config/compiler:chromium_code" ]
   configs += [ "//build/config/compiler:no_chromium_code" ]
 
+  if (is_winrt) {
+    configs += [ ":winrt_compat_forced_include_std" ]
+    sources -= ["src/crypto/rand/windows.c"]
+    sources += ["../../third_party/winrt_compat/boringssl_src_crypto_rand_windows.c"]
+    sources += ["../../third_party/winrt_compat/winrt_compat_std.cc"]
+    sources += ["../../third_party/winrt_compat/winrt_compat_win.cc"]
+  }
+
   if (is_nacl) {
     deps += [ "//native_client_sdk/src/libraries/nacl_io" ]
   }
@@ -208,6 +230,15 @@ if (build_with_chromium) {
 
     configs -= [ "//build/config/compiler:chromium_code" ]
     configs += [ "//build/config/compiler:no_chromium_code" ]
+    configs += [ ":winrt_compat_forced_include_std" ]
+
+    if (is_winrt) {
+      configs += [ ":winrt_compat_forced_include_std" ]
+      sources -= ["src/crypto/rand/windows.c"]
+      sources += ["../../third_party/winrt_compat/boringssl_src_crypto_rand_windows.c"]
+      sources += ["../../third_party/winrt_compat/winrt_compat_std.cc"]
+      sources += ["../../third_party/winrt_compat/winrt_compat_win.cc"]
+    }
 
     if (is_nacl) {
       deps += [ "//native_client_sdk/src/libraries/nacl_io" ]
@@ -268,6 +299,15 @@ if (build_with_chromium) {
 
     configs -= [ "//build/config/compiler:chromium_code" ]
     configs += [ "//build/config/compiler:no_chromium_code" ]
+    configs += [ ":winrt_compat_forced_include_std" ]
+
+    if (is_winrt) {
+      configs += [ ":winrt_compat_forced_include_std" ]
+      sources -= ["src/crypto/rand/windows.c"]
+      sources += ["../../third_party/winrt_compat/boringssl_src_crypto_rand_windows.c"]
+      sources += ["../../third_party/winrt_compat/winrt_compat_std.cc"]
+      sources += ["../../third_party/winrt_compat/winrt_compat_win.cc"]
+    }
 
     if (is_nacl) {
       deps += [ "//native_client_sdk/src/libraries/nacl_io" ]
