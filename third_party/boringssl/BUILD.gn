@@ -135,7 +135,7 @@ component("boringssl") {
   if (is_winrt) {
     configs += [ ":winrt_compat_forced_include_std" ]
     sources -= ["src/crypto/rand/windows.c"]
-    sources += ["../../third_party/winrt_compat/boringssl_src_crypto_rand_windows.c"]
+    sources += ["../../third_party/winrt_compat/boringssl/src/crypto/rand/windows.c"]
     sources += ["../../third_party/winrt_compat/winrt_compat_std.cc"]
     sources += ["../../third_party/winrt_compat/winrt_compat_win.cc"]
   }
