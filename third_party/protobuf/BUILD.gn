@@ -331,6 +331,9 @@ static_library("protobuf_full") {
   ]
 
   cflags = protobuf_lite_cflags
+  if (is_winrt) {
+    configs -= [ "//build/config/win:target_winrt" ]
+  }
 }
 
 # Only compile the compiler for the host architecture.
@@ -543,6 +546,10 @@ if (current_toolchain == host_toolchain) {
 
     cflags = protobuf_lite_cflags
 
+    if (is_winrt) {
+      configs -= [ "//build/config/win:target_winrt" ]
+    }
+
     public_deps = [
       ":protobuf_full",
     ]
@@ -564,6 +571,10 @@ if (current_toolchain == host_toolchain) {
       # Default manifest on Windows (a no-op elsewhere).
       "//build/win:default_exe_manifest",
     ]
+
+    if (is_winrt) {
+      configs -= [ "//build/config/win:target_winrt" ]
+    }
   }
 }
 
