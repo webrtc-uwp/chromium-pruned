@@ -110,6 +110,10 @@ static_library("simd") {
     sources = [
       "simd/jsimd_i386.c",
     ]
+    if (is_winrt) {
+      configs += [ "//third_party/winrt_compat:force_include_std" ]
+      deps += [ "//third_party/winrt_compat:winrt_compat" ]
+    }
   } else if (current_cpu == "x64") {
     deps = [
       ":simd_asm",
