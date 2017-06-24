@@ -401,18 +401,39 @@ config("nominmax") {
 # When targeting Windows Runtime, certain compiler/linker flags are necessary.
 
 config("target_winrt") {
-  defines = [
-    "WINRT",
-    "WINAPI_FAMILY=WINAPI_FAMILY_PC_APP",
-    "WIN10",
-  ]
-  cflags_cc = [
-    "/ZW",
-    "/EHsc",
-  ]
-  arflags = [
-    "/IGNORE:4264"
-  ]
+  should_define_winrt = is_winrt
+  if (current_toolchain != "//build/toolchain/win:winrt_$target_cpu") {
+    should_define_winrt = false
+  }
+
+  if (should_define_winrt) {
+    defines = [
+      "WINRT",
+    ]
+    if (target_cpu == "arm") {
+      defines += [ "WINAPI_FAMILY=WINAPI_FAMILY_PHONE_APP" ]
+    }
+    if ((target_cpu == "x64") || (target_cpu == "x86")) {
+      defines += [ "WINAPI_FAMILY=WINAPI_FAMILY_PC_APP" ]
+    }
+    cflags_cc = [
+      "/ZW",
+      "/EHsc",
+    ]
+    arflags = [
+      "/IGNORE:4264"
+    ]
+  } else {
+    defines = [ "WINAPI_FAMILY_DESKTOP_APP" ]
+  }
+
+  if (target_os == "winrt_81") {
+    defines += [ "WIN8_1=_WIN32_WINNT_WINBLUE" ]
+  } else if (target_os == "winrt_81_phone") {
+    defines += [ "WIN8_1=_WIN32_WINNT_WINBLUE" ]
+  } else if (target_os == "winrt_10") {
+    defines += [ "WIN10=_WIN32_WINNT_WIN10" ]
+  }
 }
 
 # Internal stuff --------------------------------------------------------------
