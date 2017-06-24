@@ -110,7 +110,6 @@ component("boringssl") {
   sources = all_sources
   deps = [
     ":boringssl_asm",
-    "//third_party/winrt_compat:winrt_compat",
   ]
 
   public_configs = [ ":external_config" ]
@@ -120,11 +119,9 @@ component("boringssl") {
   configs += [ "//build/config/compiler:no_chromium_code" ]
 
   if (is_winrt) {
-    configs += [ "//third_party/winrt_compat:force_include_std" ]
+    deps += [ "//third_party/winrt_compat:force_include_std" ]
     sources -= ["src/crypto/rand/windows.c"]
-    sources += ["../../third_party/winrt_compat/boringssl/src/crypto/rand/windows.c"]
-    #sources += ["../../third_party/winrt_compat/winrt_compat_std.cc"]
-    #sources += ["../../third_party/winrt_compat/winrt_compat_win.cc"]
+    sources += ["//third_party/winrt_compat/boringssl/src/crypto/rand/windows.c"]
   }
 
   if (is_nacl) {
@@ -217,14 +214,11 @@ if (build_with_chromium) {
 
     configs -= [ "//build/config/compiler:chromium_code" ]
     configs += [ "//build/config/compiler:no_chromium_code" ]
-    configs += [ ":winrt_compat_forced_include_std" ]
 
     if (is_winrt) {
-      configs += [ ":winrt_compat_forced_include_std" ]
+      deps += [ "//third_party/winrt_compat:force_include_std" ]
       sources -= ["src/crypto/rand/windows.c"]
-      sources += ["../../third_party/winrt_compat/boringssl_src_crypto_rand_windows.c"]
-      sources += ["../../third_party/winrt_compat/winrt_compat_std.cc"]
-      sources += ["../../third_party/winrt_compat/winrt_compat_win.cc"]
+      sources += ["//third_party/winrt_compat/boringssl/src/crypto/rand/windows.c"]
     }
 
     if (is_nacl) {
@@ -286,14 +280,11 @@ if (build_with_chromium) {
 
     configs -= [ "//build/config/compiler:chromium_code" ]
     configs += [ "//build/config/compiler:no_chromium_code" ]
-    configs += [ ":winrt_compat_forced_include_std" ]
 
     if (is_winrt) {
-      configs += [ ":winrt_compat_forced_include_std" ]
+      deps += [ "//third_party/winrt_compat:force_include_std" ]
       sources -= ["src/crypto/rand/windows.c"]
-      sources += ["../../third_party/winrt_compat/boringssl_src_crypto_rand_windows.c"]
-      sources += ["../../third_party/winrt_compat/winrt_compat_std.cc"]
-      sources += ["../../third_party/winrt_compat/winrt_compat_win.cc"]
+      sources += ["//third_party/winrt_compat/boringssl/src/crypto/rand/windows.c"]
     }
 
     if (is_nacl) {
