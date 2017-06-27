@@ -237,6 +237,9 @@ def _CopyUCRTRuntime(target_dir, source_dir, dll_pattern, suffix):
 def _CopyRuntime(target_dir, source_dir, target_cpu, debug):
   """Copy the VS runtime DLLs, only if the target doesn't exist, but the target
   directory does exist. Handles VS 2013, VS 2015, and VS 2017."""
+  if target_cpu == "arm":
+    return
+    
   suffix = "d.dll" if debug else ".dll"
   if GetVisualStudioVersion() == '2015' or GetVisualStudioVersion() == '2017':
     # VS 2017 RC uses the same CRT DLLs as VS 2015.
@@ -259,6 +262,8 @@ def _CopyRuntime(target_dir, source_dir, target_cpu, debug):
       if os.path.exists(source_x64):
         _CopyRuntimeImpl(os.path.join(target_dir, pgo_runtime_dll),
                           source_x64)
+    elif target_cpu == "arm":
+      return
     else:
       raise NotImplementedError("Unexpected target_cpu value:" + target_cpu)
 
@@ -326,6 +331,9 @@ def _CopyDebugger(target_dir, target_cpu):
   """
   win_sdk_dir = SetEnvironmentAndGetSDKDir()
   if not win_sdk_dir:
+    return
+
+  if target_cpu == "arm":
     return
 
   debugger_files = (

@@ -103,8 +103,10 @@ if (current_cpu == "x86" || current_cpu == "x64") {
 }
 
 static_library("simd") {
+  deps = []
+
   if (current_cpu == "x86") {
-    deps = [
+    deps += [
       ":simd_asm",
     ]
     sources = [
@@ -114,7 +116,7 @@ static_library("simd") {
       deps += [ "//third_party/winuwp_compat:force_include_std" ]
     }
   } else if (current_cpu == "x64") {
-    deps = [
+    deps += [
       ":simd_asm",
     ]
     sources = [
