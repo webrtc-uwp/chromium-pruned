@@ -35,15 +35,6 @@
 #include "opus.h"
 #include "test_opus_common.h"
 
-#ifdef WINRT
-//WinRT runtime doesn't support basic executables. Test are run using WinRT application as runner
-//and this project as a static library, so we need exclusive main function name.
-# define main opus_padding_main
-//make stderr same as stdout
-#undef stderr
-#define stderr stdout
-#endif
-
 #define PACKETSIZE 16909318
 #define CHANNELS 2
 #define FRAMESIZE 5760

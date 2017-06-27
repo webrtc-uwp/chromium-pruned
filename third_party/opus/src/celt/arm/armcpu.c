@@ -52,7 +52,7 @@
 # define WIN32_EXTRA_LEAN
 # include <windows.h>
 
-#ifdef WINRT
+#ifdef WINUWP
 static OPUS_INLINE opus_uint32 opus_cpu_capabilities(void){
   opus_uint32 flags;
   flags = OPUS_ARM_MAY_HAVE_MEDIA | OPUS_CPU_ARM_EDSP_FLAG;
@@ -64,7 +64,7 @@ static OPUS_INLINE opus_uint32 opus_cpu_capabilities(void){
 
   return flags;
 }
-#else /* WINRT */
+#else /* WINUWP */
 static OPUS_INLINE opus_uint32 opus_cpu_capabilities(void){
   opus_uint32 flags;
   flags=0;
@@ -105,7 +105,7 @@ static OPUS_INLINE opus_uint32 opus_cpu_capabilities(void){
 # endif
   return flags;
 }
-#endif /* WINRT */
+#endif /* WINUWP */
 
 #elif defined(__linux__)
 /* Linux based */

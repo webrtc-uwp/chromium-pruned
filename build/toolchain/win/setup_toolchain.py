@@ -201,7 +201,7 @@ def main():
     #if 'LIBPATH' in env:
     #  env['LIBPATH'] = env['LIBPATH'].replace(r'\VC\LIB', r'\VC\LIB\STORE')
     #env_block = _FormatAsEnvironmentBlock(env)
-    with open('environment.winrt_' + cpu, 'wb') as f:
+    with open('environment.winuwp_' + cpu, 'wb') as f:
       f.write(env_block)
 
   assert vc_bin_dir

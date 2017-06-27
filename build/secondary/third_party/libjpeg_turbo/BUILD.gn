@@ -110,8 +110,8 @@ static_library("simd") {
     sources = [
       "simd/jsimd_i386.c",
     ]
-    if (is_winrt) {
-      deps += [ "//third_party/winrt_compat:force_include_std" ]
+    if (is_winuwp) {
+      deps += [ "//third_party/winuwp_compat:force_include_std" ]
     }
   } else if (current_cpu == "x64") {
     deps = [
@@ -139,6 +139,9 @@ static_library("simd") {
 
   if (is_win) {
     cflags = [ "/wd4245" ]
+    if (is_winuwp) {
+      deps += [ "//third_party/winuwp_compat:force_include_std" ]
+    }
   }
 }
 

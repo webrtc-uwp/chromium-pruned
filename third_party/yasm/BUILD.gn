@@ -194,8 +194,8 @@ if (current_toolchain == host_toolchain) {
       # Default manifest on Windows (a no-op elsewhere).
       "//build/win:default_exe_manifest",
     ]
-    if (is_winrt) {
-      deps += [ "//third_party/winrt_compat:force_include_win" ]
+    if (is_winuwp) {
+      deps += [ "//third_party/winuwp_compat:force_include_win" ]
     }
   }
 
@@ -337,13 +337,13 @@ if (current_toolchain == host_toolchain) {
       ":generate_version",
       ":yasm_utils",
       "//build/config/sanitizers:deps",
-      "//third_party/winrt_compat:winrt_compat",
+      "//third_party/winuwp_compat:winuwp_compat",
 
       # Default manifest on Windows (a no-op elsewhere).
       "//build/win:default_exe_manifest",
     ]
-    if (is_winrt) {
-      deps += [ "//third_party/winrt_compat:force_include_std" ]
+    if (is_winuwp) {
+      deps += [ "//third_party/winuwp_compat:force_include_std" ]
     }
   }
 

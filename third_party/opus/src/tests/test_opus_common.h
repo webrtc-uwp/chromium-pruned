@@ -67,19 +67,13 @@ __attribute__((noreturn))
 #endif
 static OPUS_INLINE void _test_failed(const char *file, int line)
 {
-#ifdef WINRT
-  #define OPUS_ERROR_OUTPUT stdout
-#else
   #define OPUS_ERROR_OUTPUT stderr
-#endif
   fprintf(OPUS_ERROR_OUTPUT, "\n ***************************************************\n");
   fprintf(OPUS_ERROR_OUTPUT, " ***         A fatal error was detected.         ***\n");
   fprintf(OPUS_ERROR_OUTPUT, " ***************************************************\n");
   fprintf(OPUS_ERROR_OUTPUT, "Please report this failure and include\n");
   fprintf(OPUS_ERROR_OUTPUT, "'make check SEED=%u fails %s at line %d for %s'\n", iseed, file, line, opus_get_version_string());
   fprintf(OPUS_ERROR_OUTPUT, "and any relevant details about your system.\n\n");
-#ifndef WINRT
   abort();
-#endif // !WINRT
 }
 #define test_failed() _test_failed(__FILE__, __LINE__);

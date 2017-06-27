@@ -118,10 +118,8 @@ component("boringssl") {
   configs -= [ "//build/config/compiler:chromium_code" ]
   configs += [ "//build/config/compiler:no_chromium_code" ]
 
-  if (is_winrt) {
-    deps += [ "//third_party/winrt_compat:force_include_std" ]
-    sources -= ["src/crypto/rand/windows.c"]
-    sources += ["//third_party/winrt_compat/boringssl/src/crypto/rand/windows.c"]
+  if (is_winuwp) {
+    deps += [ "//third_party/winuwp_compat:force_include_all" ]
   }
 
   if (is_nacl) {
@@ -215,10 +213,10 @@ if (build_with_chromium) {
     configs -= [ "//build/config/compiler:chromium_code" ]
     configs += [ "//build/config/compiler:no_chromium_code" ]
 
-    if (is_winrt) {
-      deps += [ "//third_party/winrt_compat:force_include_std" ]
+    if (is_winuwp) {
+      deps += [ "//third_party/winuwp_compat:force_include_std" ]
       sources -= ["src/crypto/rand/windows.c"]
-      sources += ["//third_party/winrt_compat/boringssl/src/crypto/rand/windows.c"]
+      sources += ["//third_party/winuwp_compat/boringssl/src/crypto/rand/windows.c"]
     }
 
     if (is_nacl) {
@@ -281,10 +279,10 @@ if (build_with_chromium) {
     configs -= [ "//build/config/compiler:chromium_code" ]
     configs += [ "//build/config/compiler:no_chromium_code" ]
 
-    if (is_winrt) {
-      deps += [ "//third_party/winrt_compat:force_include_std" ]
+    if (is_winuwp) {
+      deps += [ "//third_party/winuwp_compat:force_include_std" ]
       sources -= ["src/crypto/rand/windows.c"]
-      sources += ["//third_party/winrt_compat/boringssl/src/crypto/rand/windows.c"]
+      sources += ["//third_party/winuwp_compat/boringssl/src/crypto/rand/windows.c"]
     }
 
     if (is_nacl) {

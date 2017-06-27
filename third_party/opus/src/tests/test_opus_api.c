@@ -78,15 +78,6 @@ void *malloc_hook(__attribute__((unused)) size_t size,
 }
 #endif
 
-#ifdef WINRT
-//WinRT runtime doesn't support basic executables. Test are run using WinRT application as runner
-//and this project as a static library, so we need exclusive main function name.
-# define main opus_api_main
-//make stderr same as stdout
-#undef stderr
-#define stderr stdout
-#endif /* WINRT */
-
 static const opus_int32 opus_rates[5] = {48000,24000,16000,12000,8000};
 
 opus_int32 test_dec_api(void)
@@ -1874,7 +1865,7 @@ int test_malloc_fail(void)
 #endif
 #endif
 
-int main(int _argc, char **_argv)
+int main(int _argc, char *_argv[])
 {
    opus_int32 total;
    const char * oversion;

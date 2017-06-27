@@ -282,8 +282,8 @@ config("default_crt") {
     # exceptions on.
     configs = [ ":dynamic_crt" ]
   } else {
-    if (current_os != "win" || is_winrt) {
-      # WindowsRT: use the dynamic CRT.
+    if (current_os != "win" || is_winuwp) {
+      # WindowsUWP: use the dynamic CRT.
       configs = [ ":dynamic_crt" ]
     } else {
       # Desktop Windows: static CRT.
@@ -396,19 +396,21 @@ config("nominmax") {
   defines = [ "NOMINMAX" ]
 }
 
-# Target WinRT ----------------------------------------------------------------
+# Target WinUWP ----------------------------------------------------------------
 
 # When targeting Windows Runtime, certain compiler/linker flags are necessary.
 
-config("target_winrt") {
-  should_define_winrt = is_winrt
-  if (current_toolchain != "//build/toolchain/win:winrt_$target_cpu") {
-    should_define_winrt = false
+config("target_winuwp") {
+  should_define_winuwp = is_winuwp
+  if (current_toolchain != "//build/toolchain/win:winuwp_$target_cpu") {
+    should_define_winuwp = false
   }
 
-  if (should_define_winrt) {
+  if (should_define_winuwp) {
     defines = [
-      "WINRT",
+      "WINUWP",
+      "WEBRTC_FEATURE_END_TO_END_DELAY",
+      "WEBRTC_BASE_QUEUED_TASK_USING_STDLIB",
     ]
     if (target_cpu == "arm") {
       defines += [ "WINAPI_FAMILY=WINAPI_FAMILY_PHONE_APP" ]
@@ -424,14 +426,14 @@ config("target_winrt") {
       "/IGNORE:4264"
     ]
   } else {
-    defines = [ "WINAPI_FAMILY_DESKTOP_APP" ]
+    defines = [ "WINAPI_FAMILY=WINAPI_FAMILY_DESKTOP_APP" ]
   }
 
-  if (target_os == "winrt_81") {
+  if (target_os == "winuwp_81") {
     defines += [ "WIN8_1=_WIN32_WINNT_WINBLUE" ]
-  } else if (target_os == "winrt_81_phone") {
+  } else if (target_os == "winuwp_81_phone") {
     defines += [ "WIN8_1=_WIN32_WINNT_WINBLUE" ]
-  } else if (target_os == "winrt_10") {
+  } else if (target_os == "winuwp_10") {
     defines += [ "WIN10=_WIN32_WINNT_WIN10" ]
   }
 }

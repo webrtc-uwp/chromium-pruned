@@ -442,6 +442,8 @@ executable("opus_demo") {
 }
 
 test("test_opus_api") {
+  is_c_main = true
+
   sources = [
     "src/tests/test_opus_api.c",
   ]
@@ -454,10 +456,11 @@ test("test_opus_api") {
 
   deps = [
     ":opus",
-  ]
+  ]  
 }
 
 test("test_opus_encode") {
+  is_c_main = true
   sources = [
     "src/tests/test_opus_encode.c",
   ]
@@ -471,6 +474,9 @@ test("test_opus_encode") {
   deps = [
     ":opus",
   ]
+  if (is_winuwp) {
+    deps += [ "//third_party/winuwp_compat:force_include_std" ]
+  }
 }
 
 # GN orders flags on a target before flags from configs. The default config
@@ -487,6 +493,7 @@ config("test_opus_decode_config") {
 }
 
 test("test_opus_decode") {
+  is_c_main = true
   sources = [
     "src/tests/test_opus_decode.c",
   ]
@@ -501,9 +508,14 @@ test("test_opus_decode") {
   deps = [
     ":opus",
   ]
+  if (is_winuwp) {
+    deps += [ "//third_party/winuwp_compat:force_include_std" ]
+  }
 }
 
 test("test_opus_padding") {
+  is_c_main = true
+  is_c_main_no_args = true
   sources = [
     "src/tests/test_opus_padding.c",
   ]
