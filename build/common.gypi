@@ -3289,6 +3289,7 @@
                     'odbccp32.lib',
                     'delayimp.lib',
                     'credui.lib',
+					'ucrt.lib',
                   ],
                   'AdditionalOptions': [
                     # Suggested by Microsoft Devrel to avoid
