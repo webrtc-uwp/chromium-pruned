@@ -116,7 +116,7 @@ if (current_cpu == "x86" || (current_cpu == "x64" && !is_msan)) {
   # link time. On Mac, this results in undefined references to the intrinsic
   # symbols.
 
-  static_library("libvpx_intrinsics_mmx") {
+  source_set("libvpx_intrinsics_mmx") {
     configs += [ ":libvpx_config" ]
     configs -= [ "//build/config/compiler:chromium_code" ]
     configs += [ "//build/config/compiler:no_chromium_code" ]
@@ -131,7 +131,7 @@ if (current_cpu == "x86" || (current_cpu == "x64" && !is_msan)) {
     }
   }
 
-  static_library("libvpx_intrinsics_sse2") {
+  source_set("libvpx_intrinsics_sse2") {
     configs += [ ":libvpx_config" ]
     configs -= [ "//build/config/compiler:chromium_code" ]
     configs += [ "//build/config/compiler:no_chromium_code" ]
@@ -146,7 +146,7 @@ if (current_cpu == "x86" || (current_cpu == "x64" && !is_msan)) {
     }
   }
 
-  static_library("libvpx_intrinsics_ssse3") {
+  source_set("libvpx_intrinsics_ssse3") {
     configs += [ ":libvpx_config" ]
     configs -= [ "//build/config/compiler:chromium_code" ]
     configs += [ "//build/config/compiler:no_chromium_code" ]
@@ -161,7 +161,7 @@ if (current_cpu == "x86" || (current_cpu == "x64" && !is_msan)) {
     }
   }
 
-  static_library("libvpx_intrinsics_sse4_1") {
+  source_set("libvpx_intrinsics_sse4_1") {
     configs += [ ":libvpx_config" ]
     configs -= [ "//build/config/compiler:chromium_code" ]
     configs += [ "//build/config/compiler:no_chromium_code" ]
@@ -176,7 +176,7 @@ if (current_cpu == "x86" || (current_cpu == "x64" && !is_msan)) {
     }
   }
 
-  static_library("libvpx_intrinsics_avx") {
+  source_set("libvpx_intrinsics_avx") {
     configs += [ ":libvpx_config" ]
     configs -= [ "//build/config/compiler:chromium_code" ]
     configs += [ "//build/config/compiler:no_chromium_code" ]
@@ -193,7 +193,7 @@ if (current_cpu == "x86" || (current_cpu == "x64" && !is_msan)) {
     }
   }
 
-  static_library("libvpx_intrinsics_avx2") {
+  source_set("libvpx_intrinsics_avx2") {
     configs += [ ":libvpx_config" ]
     configs -= [ "//build/config/compiler:chromium_code" ]
     configs += [ "//build/config/compiler:no_chromium_code" ]

@@ -456,7 +456,7 @@ test("test_opus_api") {
 
   deps = [
     ":opus",
-  ]  
+  ]
 }
 
 test("test_opus_encode") {
