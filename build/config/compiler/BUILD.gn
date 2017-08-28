@@ -104,6 +104,9 @@ declare_args() {
   # on by default when goma is enabled because setting this to true may make
   # it harder to debug binaries.
   strip_absolute_paths_from_debug_symbols = false
+  
+  # WebRTC does not want to switch to C++14 yet.
+  use_cxx11 = true
 }
 
 if (is_clang && !is_nacl) {
