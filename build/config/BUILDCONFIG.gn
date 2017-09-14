@@ -257,7 +257,7 @@ if (target_os == "android") {
 } else if (target_os == "winuwp_81" || target_os == "winuwp_81_phone" ||
            target_os == "winuwp_10") {
   is_winuwp = true
-  _default_toolchain = "//build/toolchain/win:winrt_$target_cpu"
+  _default_toolchain = "//build/toolchain/win:winuwp_$target_cpu"
 } else {
   assert(false, "Unsupported target_os: $target_os")
 }
